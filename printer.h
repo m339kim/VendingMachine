@@ -30,12 +30,16 @@ class Printer {
         char state;
         unsigned int value1;
         unsigned int value2;
-		unsigned int numValues;
+        unsigned int numValues;
     };
     BufferEntry *buffer;
-	unsigned int numStudents;
-	unsigned int numVendingMachines;
-	unsigned int numCouriers;
+    unsigned int numStudents;
+    unsigned int numVendingMachines;
+    unsigned int numCouriers;
+    unsigned int totalLength;
     int getPosition(Kind kind, unsigned int lid);
     void flush();
+    void innerPrint(Kind kind, unsigned int lid, char state,
+                    unsigned int value1, unsigned int value2,
+                    unsigned int numValues);
 };
