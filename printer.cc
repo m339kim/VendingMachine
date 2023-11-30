@@ -7,7 +7,10 @@ using namespace std;
 const unsigned int NUM_STATIC_KIND = 6;
 const char EMPTY = '\0';
 
-Printer::~Printer() { delete[] buffer; }
+Printer::~Printer() {
+    delete[] buffer;
+    cout << "***********************" << endl;
+}
 
 Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines,
                  unsigned int numCouriers)
@@ -19,8 +22,31 @@ Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines,
     // Parent, Groupoff, WATOff, Names, Truck, Plant, Stud..., Mach..., Cour...
     buffer = new BufferEntry[totalLength];
     for (unsigned int i = 0; i < totalLength; i++) {
-        buffer[i].state = '\0';
+        buffer[i].state = EMPTY;
     }
+
+    // header stuff
+    cout << "Parent\tGroupoff\tWATOff\tNames\tTruck\tPlant\t";
+    for (unsigned int i = 0; i < numStudents; i++) {
+        cout << "Stud" << i << "\t";
+    }
+    for (unsigned int i = 0; i < numVendingMachines; i++) {
+        cout << "Mach" << i << "\t";
+    }
+    for (unsigned int i = 0; i < numCouriers; i++) {
+        cout << "Cour" << i;
+        if (i != numCouriers - 1) {
+            cout << "\t";
+        }
+    }
+    cout << endl;
+    for (unsigned int i = 0; i < totalLength; i++) {
+        cout << "*******";
+        if (i != totalLength - 1) {
+            cout << "\t";
+        }
+    }
+    cout << endl;
 }
 
 int Printer::getPosition(Kind kind, unsigned int lid) {
@@ -54,17 +80,19 @@ void Printer::print(Kind kind, char state) {
 void Printer::print(Kind kind, char state, unsigned int value1) {
     innerPrint(kind, 0, state, value1, 0, 1);
 }
-void Printer::print(Kind kind, char state, unsigned int value1, unsigned int value2){
+void Printer::print(Kind kind, char state, unsigned int value1,
+                    unsigned int value2) {
     innerPrint(kind, 0, state, value1, value2, 2);
 };
-void Printer::print(Kind kind, unsigned int lid, char state){
+void Printer::print(Kind kind, unsigned int lid, char state) {
     innerPrint(kind, lid, state, 0, 0, 0);
 }
-void Printer::print(Kind kind, unsigned int lid, char state, unsigned int value1){
+void Printer::print(Kind kind, unsigned int lid, char state,
+                    unsigned int value1) {
     innerPrint(kind, lid, state, value1, 0, 1);
 }
-void Printer::print(Kind kind, unsigned int lid, char state, unsigned int value1,
-           unsigned int value2){
+void Printer::print(Kind kind, unsigned int lid, char state,
+                    unsigned int value1, unsigned int value2) {
     innerPrint(kind, lid, state, value1, value2, 2);
 }
 
@@ -72,7 +100,7 @@ void Printer::innerPrint(Kind kind, unsigned int lid, char state,
                          unsigned int value1, unsigned int value2,
                          unsigned int numValues) {
     int pos = getPosition(kind, lid);
-    if (buffer[pos].state != '\0') {
+    if (buffer[pos].state != EMPTY) {
         // buffer isn't empty - need to flush
         flush();
     }
@@ -82,21 +110,21 @@ void Printer::innerPrint(Kind kind, unsigned int lid, char state,
     buffer[pos].numValues = numValues;
 }
 
-void Printer::flush() { 
+void Printer::flush() {
     for (unsigned int i = 0; i < totalLength; i++) {
         // print every buffer
-        if (buffer[i].state != '\0') {
+        if (buffer[i].state != EMPTY) {
             cout << buffer[i].state;
-        }
-        if (buffer[i].numValues >= 1) {
-            cout << buffer[i].value1;
-        }
-        if (buffer[i].numValues == 2) {
-            cout << ",";
-            cout << buffer[i].value2;
+            if (buffer[i].numValues >= 1) {
+                cout << buffer[i].value1;
+            }
+            if (buffer[i].numValues == 2) {
+                cout << ",";
+                cout << buffer[i].value2;
+            }
         }
         cout << "\t";
-        buffer[i].state = '\0';
+        buffer[i].state = EMPTY;
     }
     cout << endl;
- }
+}
