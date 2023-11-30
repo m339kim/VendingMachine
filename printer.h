@@ -30,6 +30,7 @@ class Printer {
         char state;
         unsigned int value1;
         unsigned int value2;
+		unsigned int numValues;
     };
     BufferEntry *buffer;
 	unsigned int numStudents;
