@@ -1,6 +1,6 @@
 #pragma once
 
-class Printer {
+_Monitor Printer {
    public:
     enum Kind {
         Parent,
