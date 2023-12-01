@@ -11,11 +11,11 @@ WATCard::FWATCard Groupoff::giftCard() {
     WATCard::FWATCard future;
     futGiftCards.push_back(future);
     return future;
-};
+}
 
 Groupoff::~Groupoff() {
     // should we delete from legitWATCards here, or is that the responsibility of the student?
-};
+}
 
 void Groupoff::main() {
     printer.print(Printer::Groupoff, States::Start);
@@ -42,4 +42,4 @@ void Groupoff::main() {
     }
 
     printer.print(Printer::Groupoff, States::Finished);
-};
+}
