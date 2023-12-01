@@ -40,7 +40,7 @@ void Student::main() {
                     cardToUse = watcard();
                     cardType = States::BoughtSoda;
                 } catch (WATCardOffice::Lost) {
-                    watcard = cardOffce.create(id, 5);
+                    watcard = cardOffice.create(id, 5);
                     continue;
                 }
             }
