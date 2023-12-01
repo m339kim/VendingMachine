@@ -51,7 +51,8 @@ void Student::main() {
                 break;
             } catch (VendingMachine::Free free) {
                 // 50% chance to watch ad
-                // XXX: wtf are we supposed to print if they got the free soda but didn't watch the ad? I guess just X?
+                // XXX: wtf are we supposed to print if they got the free soda
+                // but didn't watch the ad? I guess just X?
                 if (my_prng(2) == 0) {
                     yield(4);
                     if (cardType == States::BoughtSoda) {
@@ -59,8 +60,8 @@ void Student::main() {
                     } else {
                         cardType = States::FreeSodaAdGC;
                     }
-                printer.print(Printer::Student, id, cardType, favouriteFlavour,
-                              card->getBalance());
+                    printer.print(Printer::Student, id, cardType,
+                                  favouriteFlavour, card->getBalance());
                 } else {
                     // this does not seem right
                     cardType = States::SkippedAd;
