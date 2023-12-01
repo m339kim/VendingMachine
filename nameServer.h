@@ -14,9 +14,9 @@ _Task NameServer {
             Finished = 'F'
         };
 
-        unsigned int numVendingMachines = 0;
-        unsigned int numStudents = 0;
-        unsigned int studentId = 0;
+        unsigned int numVendingMachines;
+        unsigned int numStudents;
+        unsigned int *studentIdxs;
 
         VendingMachine *newMachine;
         VendingMachine **machines;
