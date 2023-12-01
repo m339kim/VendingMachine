@@ -21,8 +21,7 @@ _Task NameServer {
         VendingMachine *newMachine;
         VendingMachine **machines;
         unsigned int machineIndex = 0;
-        
-        uCondition bench;
+
 	public:
         NameServer( Printer & prt, unsigned int numVendingMachines, unsigned int numStudents );
         void main();
