@@ -48,6 +48,7 @@ void Student::main() {
                 currMachine.buy(favouriteFlavour, card);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               card->getBalance());
+                break;
             } catch (VendingMachine::Free free) {
                 // 50% chance to watch ad
                 // XXX: wtf are we supposed to print if they got the free soda but didn't watch the ad? I guess just X?
@@ -63,6 +64,7 @@ void Student::main() {
                 }
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               card->getBalance());
+                break;
             } catch (VendingMachine::Funds funds) {
                 // gift card is guaranteed to have enough money I think
                 watcard =
