@@ -3,11 +3,12 @@
 #include "WATCardOffice.h"
 #include "groupoff.h"
 #include "nameServer.h"
+#include "bottlingPlant.h"
 
 #include <uPRNG.h>
 
 _Monitor Printer;
-extern MPRNG mprng;
+PRNG my_prng;
 
 _Task Student {
     // VendingMachine?
