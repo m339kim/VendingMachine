@@ -59,11 +59,13 @@ void Student::main() {
                     } else {
                         cardType = States::FreeSodaAdGC;
                     }
-                } else {
-                    cardType = States::SkippedAd;
-                }
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               card->getBalance());
+                } else {
+                    // this does not seem right
+                    cardType = States::SkippedAd;
+                    printer.print(Printer::Student, id, cardType);
+                }
                 break;
             } catch (VendingMachine::Funds funds) {
                 // gift card is guaranteed to have enough money I think
