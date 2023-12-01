@@ -2,6 +2,9 @@
 #include "nameServer.h"
 #include "printer.h"
 #include "truck.h"
+#include <uPRNG.h>
+
+PRNG my_prng;
 
 _Task BottlingPlant {
   Printer &printer;
@@ -28,7 +31,7 @@ _Task BottlingPlant {
 	void main();
 
   public:
-    enum Flavours { BLACK_CHERRY, CREAM_SODA, ROOT_BEER, JAZZ_LIME };	// flavours of soda (YOU DEFINE)
+    enum Flavours { BLACK_CHERRY, CREAM_SODA, ROOT_BEER, JAZZ_LIME, NUM_FLAVOURS };	// flavours of soda (YOU DEFINE)
     _Event Shutdown {};					// shutdown plant exception
     BottlingPlant ( 
       Printer &prt, 
