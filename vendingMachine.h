@@ -4,7 +4,7 @@
 _Task NameServer;
 _Monitor Printer;
 
-PRNG my_prng;
+// PRNG my_prng;
 
 _Task VendingMachine {
 	Printer &printer;
@@ -13,6 +13,7 @@ _Task VendingMachine {
 	unsigned int id;
 	unsigned int sodaCost;
 	unsigned int stock[4] = {0,0,0,0};
+	bool restocking;
 
 	uCondition bench;
 
