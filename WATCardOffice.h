@@ -17,7 +17,6 @@ _Task WATCardOffice {
 		unsigned int amount;
 		WATCard * watcard;
 
-        // mj TODO: change Job constructor params to Args{}
 		WATCard::FWATCard result;			// return future
 		Job( unsigned int sid, unsigned int amount, WATCard * card ) : sid(sid), amount(amount), watcard(card) {}
 	};
@@ -53,7 +52,10 @@ _Task WATCardOffice {
 
 	Printer &printer;
 	Bank &bank;
+	
 	unsigned int numCouriers;
+	Courier ** couriers;
+	vector<Job *> jobs;
 	
 	void main();
 

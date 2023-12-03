@@ -15,71 +15,83 @@ Student::Student(Printer& prt, NameServer& nameServer,
 Student::~Student() {}
 
 void Student::main() {
-    printer.print(Printer::Student, id, States::Start);
     unsigned int bottlesToPurchase = my_prng(1, maxPurchases);
-    unsigned int favouriteFlavour =
-        my_prng(BottlingPlant::Flavours::NUM_FLAVOURS);
-    WATCard::FWATCard watcard = cardOffice.create(id, 5);
-    WATCard::FWATCard giftcard = groupoff.giftCard();
-    VendingMachine* currMachine = nameServer.getMachine(id);
-    printer.print(Printer::Student, id, States::SelectingVM,
-                  currMachine.getId());
+    unsigned int favouriteFlavour = (VendingMachine::Flavours) my_prng(BottlingPlant::Flavours::NUM_FLAVOURS);
+    printer.print(Printer::Kind::Student, id, States::Start, favouriteFlavour, bottlesToPurchase); // add bottlesToPurchanse
+
+    WATCard::FWATCard watcard = cardOffice.create(id, 5); // create watcard
+    WATCard::FWATCard giftcard = groupoff.giftCard();   // create giftcard
+
+    VendingMachine * currMachine = nameServer.getMachine(id);
+    printer.print(Printer::Kind::Student, 
+                    id, 
+                    Student::States::SelectingVM,
+                    currMachine->getId()
+                  );
+
     char cardType = '\0';
-    WATCard* cardToUse;
+    WATCard * cardToUse;
 
     for (unsigned int i = 0; i < bottlesToPurchase; i++) {
-        yield(my_prng(1, 10));
-        for (;;) {
-            _Select(giftcard) {
-                WATCard* cardToUse = giftcard();
-                giftcard.reset();
-                cardType = States::GiftCardSoda;
-            }
-            or _Select(watcard) {
-                try {
-                    cardToUse = watcard();
-                    cardType = States::BoughtSoda;
-                } catch (WATCardOffice::Lost) {
-                    watcard = cardOffice.create(id, 5);
-                    continue;
-                }
-            }
+        _Select(giftcard || watcard) { // either card available
             try {
-                currMachine.buy(favouriteFlavour, card);
+                // use giftcard first if available
+                if (giftcard.available()) {
+                    cardToUse = giftcard();
+                    cardType = Student::States::GiftCardSoda;
+                }  else if (watcard.available()) {
+                    cardToUse = watcard();
+                    cardType = Student::States::BoughtSoda;
+                }
+
+                yield(my_prng(1, 10));
+
+                // make soda purchase
+                currMachine->buy(favouriteFlavour, *cardToUse);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
-                              card->getBalance());
-                break;
-            } catch (VendingMachine::Free free) {
+                              cardToUse->getBalance());
+                if(giftcard.available()) giftcard.reset();
+            } catch (WATCardOffice::LostWATCard &e) { // courier lost student's WATCard during transfer
+                printer.print(Printer::Kind::Student, id, Student::States::WATCardLost);
+                watcard.reset();
+                watcard = cardOffice.create(id, 5); // initial $5 balance
+            } catch (VendingMachine::Free &e) {
                 // 50% chance to watch ad
                 // XXX: wtf are we supposed to print if they got the free soda
                 // but didn't watch the ad? I guess just X?
-                if (my_prng(2) == 0) {
-                    yield(4);
-                    if (cardType == States::BoughtSoda) {
-                        cardType = States::FreeSodaAdGC;
-                    } else {
-                        cardType = States::FreeSodaAdGC;
+                // this is confusing..
+                if (my_prng(2) == 0) { // watch ad
+                    // logic here is so messed pls send help!!!!
+                    if (giftcard.available()) {
+                        // Gotta handle edge case where:
+                        //  student who only buys one soda uses the gift card.
+                        if (cardType == States::BoughtSoda) {
+                            cardType = Student::States::FreeSodaAdGC;
+                        } else {
+                            cardType = States::BoughtSoda;
+                        }
+                    } else if (watcard.available()){
+                        if (cardType == States::BoughtSode) {
+                            cardType = Student::States::FreeSodaAdWC;
+                        } else {
+                            cardType = States::BoughtSoda;
+                        }
                     }
-                    printer.print(Printer::Student, id, cardType,
-                                  favouriteFlavour, card->getBalance());
-                } else {
-                    // this does not seem right
-                    cardType = States::SkippedAd;
-                    printer.print(Printer::Student, id, cardType);
+                    printer.print(Printer::Kind::Student, id, cardType,
+                        favouriteFlavour, cardToUse->getBalance());
+                    yield(4); // watch ad
+                } else {    // don't watch ad
+                    // ??? help
                 }
-                break;
-            } catch (VendingMachine::Funds funds) {
+            } catch (VendingMachine::Funds &e) {
                 // gift card is guaranteed to have enough money I think
-                watcard =
-                    cardOffice.transfer(id, 5 + currMachine.cost(), cardToUse);
-                continue;
-            } catch (VendingMachine::Stock) {
+                watcard = cardOffice.transfer(id, 5 + currMachine.cost(), cardToUse);
+            } catch (VendingMachine::Stock &e) {
                 currMachine = nameServer.getMachine(id);
-                printer.print(Printer::Student, id, States::SelectingVM,
-                              currMachine.getId());
-                continue;
+                printer.print(Printer::Student, id, Student::States::SelectingVM,
+                              currMachine->getId());
             }
         }
     }
-    printer.print(Printer::Student, id, States::Finished);
-}
+    printer.print(Printer::Student, id, Student::States::Finished);
+}    

@@ -1,11 +1,11 @@
 #pragma once
 #include "vendingMachine.h"
-
-_Monitor Printer;
+#include "printer.h"
 
 _Task NameServer {
     private:
-        Printer &printer;
+        Printer & printer;
+        uCondition bench;
 
         enum States : char {
             Start = 'S',
@@ -16,7 +16,7 @@ _Task NameServer {
 
         unsigned int numVendingMachines;
         unsigned int numStudents;
-        unsigned int *studentIdxs;
+        unsigned int studentId;
 
         VendingMachine *newMachine;
         VendingMachine **machines;

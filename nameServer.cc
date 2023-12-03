@@ -5,46 +5,51 @@ NameServer::NameServer(Printer& prt, unsigned int numVendingMachines,
     : printer(prt),
       numVendingMachines(numVendingMachines),
       numStudents(numStudents) {
-    studentIdxs = new unsigned int[numStudents];
-
-    for (unsigned int i = 0; i < numStudents; i++) {
-        studentIdxs[i] = i % numVendingMachines;
-    }
-
     machines = new VendingMachine*[numVendingMachines];
 }
 
 NameServer::~NameServer() {
-    delete[] studentIdxs;
     delete[] machines;
 }
 
 void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
 
-    for (unsigned int i = 0; i < numVendingMachines; i++) {
-        _Accept(VMregister){};
+    for (unsigned int i = machineIndex; i < numVendingMachines; i++) {
+        _Accept(VMregister){
+            machines[i] = newMachine;
+        };
     }
-
+    machineIndex = 0;
     for (;;) {
-        _Accept(~NameServer) { break; }
-        or _Accept(getMachine || getMachineList) {}
+        _Accept(~NameServer) { 
+            bench.signalBlock();
+            printer.print(Printer::Kind::NameServer, NameServer::States::Finished);
+            break; 
+        }
+        or _Accept(getMachine) {
+            newMachine = machines[machineIndex];
+            printer.print(Printer::Kind::NameServer, 
+                            NameServer::States::NewVM, 
+                            studentId, 
+                            newMachine->getId()
+                         );
+            machineIndex = (machineIndex + 1) % numVendingMachines;
+            bench.signalBlock();
+        } or _Accept (getMachineList) {}
     }
-
-    printer.print(Printer::NameServer, States::Finished);
+    // printer.print(Printer::NameServer, States::Finished);
 }
 
 void NameServer::VMregister(VendingMachine* vendingmachine) {
-    printer.print(Printer::NameServer, States::RegisterVM, vendingmachine->getId());
-    machines[machineIndex] = vendingmachine;
-    machineIndex++;
+    newMachine = vendingmachine;
+    printer.print(Printer::Kind::NameServer, RegisterVM, newMachine->getId());
 }
 
 VendingMachine* NameServer::getMachine(unsigned int id) {
-    VendingMachine *currMachine = machines[studentIdxs[id]];
-    printer.print(Printer::NameServer, States::NewVM, id, currMachine->getId());
-    studentIdxs[id] = (studentIdxs[id] + 1) % numVendingMachines;
-    return currMachine;
+    studentId = id;
+    bench.wait();
+    return newMachine;
 }
 
 VendingMachine** NameServer::getMachineList() {

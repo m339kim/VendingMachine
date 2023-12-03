@@ -1,8 +1,15 @@
 #pragma once
 
-// mj TODO - not done !!!!
+_Task VendingMachine;
+_Monitor Printer;
+
 
 _Task Truck {
+	NameServer & nameServer;
+	BottlingPlant & plant;
+	VendingMachine **machines;
+	Printer & printer;
+
 	enum States : char {
 		Start = 'S',
 		PickedUp = 'P', // a // total amount a of all sodas in the shipment
@@ -13,7 +20,15 @@ _Task Truck {
 		Finished = 'F'
 	};
 
+	unsigned int numVendingMachines;
+	unsigned int maxStockPerFlavour;
+
+	unsigned int * cargo = 0;
+	unsigned int * machineIndex = 0;
+	unsigned ** machines;
+
 	void main();
+	unsigned int shipmentCount();
   public:
 	Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
 		   unsigned int numVendingMachines, unsigned int maxStockPerFlavour );

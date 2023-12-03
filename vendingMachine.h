@@ -25,6 +25,7 @@ _Task VendingMachine {
 		SodaBought = 'B', // f,r // soda flavour f purchased, amount remaining r of this flavour
 		Finished = 'F'
 	};
+	enum Flavours { BLACK_CHERRY, CREAM_SODA, ROOT_BEER, JAZZ_LIME, NUM_FLAVOURS };	// flavours of soda (YOU DEFINE)
 
 	void main();
 
@@ -38,4 +39,7 @@ _Task VendingMachine {
 		void restocked();
 		_Nomutex unsigned int cost() const;
 		_Nomutex unsigned int getId() const;
+	private:
+		Flavours curFlavour = 0; // BLACK_CHERRY
+		WATCard * watcard = nullptr;
 };
