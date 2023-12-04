@@ -31,7 +31,7 @@ void WATCardOffice::Courier::main() {
 
         // and while doing that, courier loses watcard by 1/6 chance
         if (my_prng(6) == 0) {
-            printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::WATCardLost, job->sid);
+            printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::LostWATCard, job->sid);
             job->result.exception(new WATCardOffice::Lost());
             delete job->watcard;
         } else {
