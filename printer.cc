@@ -26,7 +26,7 @@ Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines,
     }
 
     // header stuff
-    cout << "Parent\tGroupoff\tWATOff\tNames\tTruck\tPlant\t";
+    cout << "Parent\tGropoff\tWATOff\tNames\tTruck\tPlant\t";
     for (unsigned int i = 0; i < numStudents; i++) {
         cout << "Stud" << i << "\t";
     }
