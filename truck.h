@@ -1,8 +1,10 @@
 #pragma once
+#include <uPRNG.h>
 
 _Task VendingMachine;
 _Monitor Printer;
 _Task BottlingPlant;
+_Task NameServer;
 
 extern PRNG my_prng;
 
