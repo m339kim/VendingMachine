@@ -31,7 +31,7 @@ _Task Truck {
     unsigned int maxStockPerFlavour;
 
     unsigned int *cargo;
-    unsigned int machineIndex;
+    unsigned int machineIndex = 0;
 
     void main();
     unsigned int shipmentCount();
