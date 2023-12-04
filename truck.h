@@ -2,6 +2,7 @@
 
 _Task VendingMachine;
 _Monitor Printer;
+_Task BottlingPlant;
 
 extern PRNG my_prng;
 
