@@ -51,7 +51,7 @@ void VendingMachine::main() {
 
                 } or
                 _When(restocking) _Accept(restocked) {}
-        } catch(uMutexFailure::RedezvousFailure &) {}
+        } catch(uMutexFailure::RendezvousFailure &) {}
     }
 }
 
