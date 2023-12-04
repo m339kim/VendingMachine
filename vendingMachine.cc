@@ -22,11 +22,11 @@ void VendingMachine::buy(Flavours flavour, WATCard& card) {
     } else {
         stock[curFlavour] -= 1;
         if (my_prng(5-1) == 0) {
-            printer.print(Printer::Vending, getId(), States::FreeSodaAd);
+            printer.print(Printer::Vending, id, States::FreeSodaAd);
             _Throw Free();
         } else {
             watcard->withdraw(sodaCost);
-            printer.print(Printer::Vending, States::SodaBought, flavour,
+            printer.print(Printer::Vending, States::SodaBought, id, flavour,
                         stock[flavour]);
         }
     }
@@ -34,13 +34,13 @@ void VendingMachine::buy(Flavours flavour, WATCard& card) {
 }
 
 void VendingMachine::main() {
-    printer.print(Printer::Vending, States::Start, sodaCost);
+    printer.print(Printer::Vending, States::Start, id, sodaCost);
     nameServer.VMregister(this);
 
     for (;;) {
         try {
             _Accept(~VendingMachine) {
-                printer.print(Printer::Vending, States::Finished);
+                printer.print(Printer::Vending, States::Finished, id);
                 break; 
             }
             or
@@ -57,12 +57,12 @@ void VendingMachine::main() {
 
 unsigned int * VendingMachine::inventory() {
     restocking = true;
-    printer.print(Printer::Vending, States::StartTruckReload);
+    printer.print(Printer::Vending, States::StartTruckReload, id);
     return stock;
 }
 void VendingMachine::restocked() {
     restocking = false;
-    printer.print(Printer::Vending, States::DoneTruckReload);
+    printer.print(Printer::Vending, States::DoneTruckReload, id);
 };
 _Nomutex unsigned int VendingMachine::cost() const { 
     return sodaCost; 
