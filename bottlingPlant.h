@@ -4,7 +4,7 @@
 #include "truck.h"
 #include <uPRNG.h>
 
-PRNG my_prng;
+extern PRNG my_prng;
 
 _Task BottlingPlant {
   Printer &printer;

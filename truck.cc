@@ -4,7 +4,7 @@
 #include "bottlingPlant.h"
 #include "nameServer.h"
 
-PRNG my_prng;
+
 
 Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
     unsigned int numVendingMachines, unsigned int maxStockPerFlavour ):

@@ -8,7 +8,7 @@
 #include <uPRNG.h>
 
 _Monitor Printer;
-PRNG my_prng;
+extern PRNG my_prng;
 
 _Task Student {
     // VendingMachine?

@@ -3,6 +3,7 @@
 _Task VendingMachine;
 _Monitor Printer;
 
+extern PRNG my_prng;
 
 _Task Truck {
 	NameServer & nameServer;

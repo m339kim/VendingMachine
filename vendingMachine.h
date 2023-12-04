@@ -4,7 +4,7 @@
 _Task NameServer;
 _Monitor Printer;
 
-// PRNG my_prng;
+extern PRNG my_prng;
 
 _Task VendingMachine {
 	Printer &printer;
