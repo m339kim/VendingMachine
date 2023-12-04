@@ -57,10 +57,10 @@ void BottlingPlant::main() {
 }
 
 void BottlingPlant::getShipment(unsigned int cargo[]) {
+    bench.wait();
     for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
         cargo[i] = production[i];
     }
-    bench.wait();
     if (shutdown) {
         // ?
         _Throw Shutdown(); // nice
