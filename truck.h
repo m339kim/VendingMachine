@@ -26,7 +26,7 @@ _Task Truck {
 
 	unsigned int * cargo = 0;
 	unsigned int * machineIndex = 0;
-	unsigned ** machines;
+
 
 	void main();
 	unsigned int shipmentCount();
