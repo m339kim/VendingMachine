@@ -26,12 +26,13 @@ int main(int argc, char *argv[]) {
             case 4:
                 if (strcmp(argv[3], "d") != 0) {
                     processors = convert(argv[3]);
-                    if (code < 0) throw cmd_error();
+                    if (processors < 0) throw cmd_error();
                 }
             case 3:
                 if (strcmp(argv[2], "d") != 0) {
-                    my_prng.set_seed(convert(argv[2])) if (code <
-                                                           0) throw cmd_error();
+                    int temp = convert(argv[2]);
+                    if (temp < 0) throw cmd_error();
+                    my_prng.set_seed(temp);
                 }
             case 2:
                 processConfigFile(argv[1], configParms);
