@@ -8,6 +8,13 @@ const unsigned int NUM_STATIC_KIND = 6;
 const char EMPTY = '\0';
 
 Printer::~Printer() {
+    for (unsigned int i = 0; i < totalLength; i++) {
+        // print every buffer
+        if (buffer[i].state != EMPTY) {
+            flush();
+            break;
+        }
+    }
     delete[] buffer;
     cout << "***********************" << endl;
 }
