@@ -72,6 +72,10 @@ WATCardOffice::~WATCardOffice() {
     printer.print(Printer::Kind::WATCardOffice, WATCardOffice::States::Finished);
 }
 
+void WATCardOffice::main() {
+
+}
+
 WATCard::FWATCard WATCardOffice::create(unsigned int sid, unsigned int amount) {
     WATCard* watcard = new WATCard(); // student must remember to free this memory
     // obtain funding from bank
