@@ -26,4 +26,4 @@ void Parent::main() {
     printer.print(Printer::Parent, Finished);
 }
 
-Parent::~Printer() {}
+Parent::~Parent() {}
