@@ -36,7 +36,7 @@ int main(int argc, char * argv[]) {
         delete students[i];
     }
     delete [] students;
-    delete bottlingPlant;
+    bottlingPlant.~BottlingPlant();
     for (unsigned int i = 0; i < configParms.numVendingMachines; i++) {
         delete machines[i];
     }
