@@ -45,7 +45,7 @@ void VendingMachine::main() {
             }
             or
                 _When(!restocking) _Accept(buy){
-                    // do we have to fill these in??
+                    bench.signal();
                 } or
                 _When(!restocking) _Accept(inventory){
 
