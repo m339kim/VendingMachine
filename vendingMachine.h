@@ -3,6 +3,7 @@
 
 _Task NameServer;
 _Monitor Printer;
+class WATCard;
 
 extern PRNG my_prng;
 
