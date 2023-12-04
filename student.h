@@ -8,14 +8,15 @@
 #include <uPRNG.h>
 
 _Monitor Printer;
+_Task WATCardOffice;
 extern PRNG my_prng;
 
 _Task Student {
     // VendingMachine?
+	Printer &printer;
+    NameServer &nameServer;
     WATCardOffice &cardOffice;
     Groupoff &groupoff;
-    NameServer &nameServer;
-	Printer &printer;
 
     enum States : char {
         Start = 'S', // f,b // favourite soda f, number of bottles b to purchase
