@@ -47,11 +47,11 @@ void Student::main() {
                 yield(my_prng(1, 10));
 
                 // make soda purchase
-                currMachine->buy(favouriteFlavour, *cardToUse);
+                currMachine->buy((VendingMachine::Flavours)favouriteFlavour, *cardToUse);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               cardToUse->getBalance());
                 if(giftcard.available()) giftcard.reset();
-            } catch (WATCardOffice::LostWATCard &e) { // courier lost student's WATCard during transfer
+            } catch (WATCardOffice::Lost &e) { // courier lost student's WATCard during transfer
                 printer.print(Printer::Kind::Student, id, Student::States::WATCardLost);
                 watcard.reset();
                 watcard = cardOffice.create(id, 5); // initial $5 balance
