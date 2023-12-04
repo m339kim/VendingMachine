@@ -29,7 +29,7 @@ int main(int argc, char * argv[]) {
     BottlingPlant bottlingPlant(printer, nameServer, configParms.numVendingMachines, configParms.maxShippedPerFlavour, configParms.maxStockPerFlavour, configParms.timeBetweenShipments);
     Student **students = new Student*[configParms.numStudents];
     for (unsigned int i = 0; i < configParms.numStudents; i++) {
-        students[i] = new Student(printer, nameServer, watcardOffice, groupoff, configParms.maxPurchases);
+        students[i] = new Student(printer, nameServer, watcardOffice, groupoff, i, configParms.maxPurchases);
     }
 
     for (unsigned int i = 0; i < configParms.numStudents; i++) {
