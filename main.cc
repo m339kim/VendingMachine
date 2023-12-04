@@ -53,6 +53,7 @@ int main(int argc, char *argv[]) {
     Printer printer(configParms.numStudents, configParms.numVendingMachines,
                     configParms.numCouriers);
     Bank bank(configParms.numStudents);
+    Parent parent(printer, bank, configParms.numStudents, configParms.parentalDelay);
     WATCardOffice watcardOffice(printer, bank, configParms.numCouriers);
     Groupoff groupoff(printer, configParms.numStudents, configParms.sodaCost,
                       configParms.groupoffDelay);
