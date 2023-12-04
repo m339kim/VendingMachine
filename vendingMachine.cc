@@ -14,7 +14,6 @@ VendingMachine::VendingMachine(Printer& prt, NameServer& nameServer,
 void VendingMachine::buy(Flavours flavour, WATCard& card) {
     watcard = &card;
     curFlavour = flavour;
-    bench.wait();
     if (stock[flavour] == 0) {
         _Throw Stock();
     } else if (card.getBalance() < sodaCost) {
