@@ -19,7 +19,7 @@ void Parent::main() {
             int amount = my_prng(1, 3);
             int id = my_prng(numStudents - 1);
             bank.deposit(id, amount);
-            printer.print(Printer::Parent, Parent::States::DepositGift, id,
+            printer.print(Printer::Parent, id, Parent::States::DepositGift, 
                           amount);
         }
     }
