@@ -1,5 +1,6 @@
 #include "vendingMachine.h"
 #include "printer.h"
+#include "WATCard.h"
 
 VendingMachine::VendingMachine(Printer& prt, NameServer& nameServer,
                                unsigned int id, unsigned int sodaCost)
@@ -18,7 +19,7 @@ void VendingMachine::buy(Flavours flavour, WATCard& card) {
     } else if (card.getBalance() < sodaCost) {
         _Throw Funds();
     } else {
-        stock[curFlavour] -= 1
+        stock[curFlavour] -= 1;
         if (my_prng(5-1) == 0) {
             printer.print(Printer::Vending, getId(), States::FreeSodaAd);
             _Throw Free();
