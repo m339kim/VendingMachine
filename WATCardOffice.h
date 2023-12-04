@@ -1,6 +1,6 @@
 #pragma once
 
-#include "watcard.h"
+#include "WATCard.h"
 #include <vector>
 #include <uPRNG.h>
 
