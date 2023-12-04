@@ -1,4 +1,5 @@
 #include "groupoff.h"
+#include "printer.h"
 
 Groupoff::Groupoff(Printer& prt, unsigned int numStudents,
                    unsigned int sodaCost, unsigned int groupoffDelay)
