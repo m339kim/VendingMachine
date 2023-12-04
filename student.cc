@@ -71,7 +71,7 @@ void Student::main() {
                             cardType = States::BoughtSoda;
                         }
                     } else if (watcard.available()){
-                        if (cardType == States::BoughtSode) {
+                        if (cardType == States::BoughtSoda) {
                             cardType = Student::States::FreeSodaAdWC;
                         } else {
                             cardType = States::BoughtSoda;
