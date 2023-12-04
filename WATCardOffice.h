@@ -25,7 +25,7 @@ _Task WATCardOffice {
         Printer &printer;
 		Bank &bank;
 		WATCardOffice &office;
-        unsigned int courier_id;
+        unsigned int cid;
 
 		enum States : char {
 			Start = 'S',

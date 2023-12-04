@@ -12,7 +12,7 @@ WATCardOffice::Courier::~Courier(){
 	printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::Finished);
 }
 
-WATCardOffice::Courier::main() {
+void WATCardOffice::Courier::main() {
     printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::Start);
     
     for (;;) {
