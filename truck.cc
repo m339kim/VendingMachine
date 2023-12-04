@@ -40,7 +40,7 @@ void Truck::main() {
         
         unsigned int curr = machineIndex;
         for (;;) {
-            if !(cargo[0] || cargo[1] || cargo[2] || cargo[3]) break;
+            if (!(cargo[0] || cargo[1] || cargo[2] || cargo[3])) break;
             VendingMachine *vm = machines[curr];
             fillStock(vm);
             curr += 1;

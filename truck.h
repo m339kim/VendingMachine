@@ -9,10 +9,10 @@ _Task NameServer;
 extern PRNG my_prng;
 
 _Task Truck {
+    Printer & printer;
     NameServer & nameServer;
     BottlingPlant & plant;
     VendingMachine **machines;
-    Printer & printer;
 
     enum States : char {
         Start = 'S',
