@@ -30,7 +30,7 @@ void BottlingPlant::main() {
 
     yield(timeBetweenShipments); // exclude first productin
 
-    for (; !shutdown ;) {
+    for (;;) {
         // production run
         // getShipment or shutdown
         _Accept(getShipment) { // waiting for truck to pickup products..
