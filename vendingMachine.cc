@@ -1,6 +1,7 @@
 #include "vendingMachine.h"
 #include "printer.h"
 #include "WATCard.h"
+#include "nameServer.h"
 
 VendingMachine::VendingMachine(Printer& prt, NameServer& nameServer,
                                unsigned int id, unsigned int sodaCost)
