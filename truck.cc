@@ -25,7 +25,7 @@ Truck::~Truck(){
 
 void Truck::main() {
     printer.print(Printer::Kind::Truck, Truck::States::Start);
-    machineslist = nameServer.getMachineList();
+    machines = nameServer.getMachineList();
 
     for (;;) {
         yield(my_prng(1, 10)); // coffee break        
@@ -41,7 +41,7 @@ void Truck::main() {
         unsigned int curr = machineIndex;
         for (;;) {
             if !(cargo[0] || cargo[1] || cargo[2] || cargo[3]) break;
-            VendingMachine *vm = machineslist[curr];
+            VendingMachine *vm = machines[curr];
             fillStock(vm);
             curr += 1;
             curr = curr % numVendingMachines;

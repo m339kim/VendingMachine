@@ -7,32 +7,36 @@ _Task BottlingPlant;
 extern PRNG my_prng;
 
 _Task Truck {
-	NameServer & nameServer;
-	BottlingPlant & plant;
-	VendingMachine **machines;
-	Printer & printer;
+    NameServer & nameServer;
+    BottlingPlant & plant;
+    VendingMachine **machines;
+    Printer & printer;
 
-	enum States : char {
-		Start = 'S',
-		PickedUp = 'P', // a // total amount a of all sodas in the shipment
-		BeginDelivery = 'd', // v,r // vending machine v, total amount remaining r in the shipment
-		FailedFillingVM = 'U', // v,b // vending machine v, total number of bottles b not replenished
-		DoneDelivery = 'D', // v,r // vending machine v, total amount remaining r in the shipment
-		WaitForRepair = 'W',
-		Finished = 'F'
-	};
+    enum States : char {
+        Start = 'S',
+        PickedUp = 'P',  // a // total amount a of all sodas in the shipment
+        BeginDelivery = 'd',    // v,r // vending machine v, total amount
+                                // remaining r in the shipment
+        FailedFillingVM = 'U',  // v,b // vending machine v, total number of
+                                // bottles b not replenished
+        DoneDelivery = 'D',  // v,r // vending machine v, total amount remaining
+                             // r in the shipment
+        WaitForRepair = 'W',
+        Finished = 'F'
+    };
 
-	unsigned int numVendingMachines;
-	unsigned int maxStockPerFlavour;
+    unsigned int numVendingMachines;
+    unsigned int maxStockPerFlavour;
 
-	unsigned int * cargo = 0;
-	unsigned int * machineIndex = 0;
+    unsigned int *cargo;
+    unsigned int machineIndex;
 
+    void main();
+    unsigned int shipmentCount();
+    void fillStock(VendingMachine * machine);
 
-	void main();
-	unsigned int shipmentCount();
-  public:
-	Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
-		   unsigned int numVendingMachines, unsigned int maxStockPerFlavour );
+   public:
+    Truck(Printer & prt, NameServer & nameServer, BottlingPlant & plant,
+          unsigned int numVendingMachines, unsigned int maxStockPerFlavour);
     ~Truck();
 };
