@@ -15,7 +15,9 @@ Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
     maxStockPerFlavour(maxStockPerFlavour)
     {
         cargo = new unsigned int[4];
-        std::fill(cargo, cargo + 4, 0);
+        for (unsigned int i = 0; i < 4; i++) {
+            cargo[i] = 0;
+        } 
     }
 
 Truck::~Truck(){
