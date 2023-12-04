@@ -53,7 +53,8 @@ int main(int argc, char *argv[]) {
     Printer printer(configParms.numStudents, configParms.numVendingMachines,
                     configParms.numCouriers);
     Bank bank(configParms.numStudents);
-    Parent parent(printer, bank, configParms.numStudents, configParms.parentalDelay);
+    Parent parent(printer, bank, configParms.numStudents,
+                  configParms.parentalDelay);
     WATCardOffice watcardOffice(printer, bank, configParms.numCouriers);
     Groupoff groupoff(printer, configParms.numStudents, configParms.sodaCost,
                       configParms.groupoffDelay);
@@ -65,7 +66,7 @@ int main(int argc, char *argv[]) {
         machines[i] =
             new VendingMachine(printer, nameServer, i, configParms.sodaCost);
     }
-    BottlingPlant bottlingPlant(
+    BottlingPlant *bottlingPlant = new BottlingPlant(
         printer, nameServer, configParms.numVendingMachines,
         configParms.maxShippedPerFlavour, configParms.maxStockPerFlavour,
         configParms.timeBetweenShipments);
@@ -79,7 +80,7 @@ int main(int argc, char *argv[]) {
         delete students[i];
     }
     delete[] students;
-    bottlingPlant.~BottlingPlant();
+    delete bottlingPlant;
     for (unsigned int i = 0; i < configParms.numVendingMachines; i++) {
         delete machines[i];
     }
