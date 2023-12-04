@@ -22,9 +22,9 @@ _Task NameServer {
         VendingMachine **machines;
         unsigned int machineIndex = 0;
 
+        void main();
 	public:
         NameServer( Printer & prt, unsigned int numVendingMachines, unsigned int numStudents );
-        void main();
     ~NameServer();
         void VMregister( VendingMachine * vendingmachine );
         VendingMachine * getMachine( unsigned int id ) __attribute__(( warn_unused_result ));
