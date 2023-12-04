@@ -40,6 +40,6 @@ _Task VendingMachine {
 		_Nomutex unsigned int cost() const;
 		_Nomutex unsigned int getId() const;
 	private:
-		Flavours curFlavour = 0; // BLACK_CHERRY
+		Flavours curFlavour = Flavours::BLACK_CHERRY; // BLACK_CHERRY
 		WATCard * watcard = nullptr;
 };
