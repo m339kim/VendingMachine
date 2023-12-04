@@ -40,7 +40,7 @@ void VendingMachine::main() {
     for (;;) {
         try {
             _Accept(~VendingMachine) {
-                printer.print(Printer::Vending, id, States::Finished, );
+                printer.print(Printer::Vending, id, States::Finished );
                 break; 
             }
             or
