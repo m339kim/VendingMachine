@@ -34,7 +34,7 @@ void VendingMachine::buy(Flavours flavour, WATCard& card) {
 }
 
 void VendingMachine::main() {
-    printer.print(Printer::Vending, States::Start);
+    printer.print(Printer::Vending, States::Start, sodaCost);
     nameServer.VMregister(this);
 
     for (;;) {
