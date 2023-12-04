@@ -20,12 +20,12 @@ void WATCardOffice::Courier::main() {
         if (job == NULL) _Accept(~Courier){ break; }
 
         // get $ from bank
-        printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::TransferStart,
+        printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::StartTransfer,
         job->sid, job->amount);
         bank.withdraw(job->sid, job->amount);
 
         // deposit that to WATCard
-        printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::TransferComplete,
+        printer.print(Printer::Kind::Courier, cid, WATCardOffice::Courier::States::DoneTransfer,
             job->sid, job->amount);
         job->watcard->deposit(job->amount); 
 
@@ -95,6 +95,6 @@ WATCardOffice::Job* WATCardOffice::requestWork() {
     Job* job = jobs.back(); // last elem of vector jobs
     jobs.pop_back(); // remove the last elem of vector jobs
 
-    printer.print(Printer::Kind::WATCardOffice, WATCardOffice::WorkComplete);
+    printer.print(Printer::Kind::WATCardOffice, WATCardOffice::RequestComplete);
     return job;
 }
