@@ -17,7 +17,7 @@ void Parent::main() {
         _Else {
             yield(parentalDelay);
             int amount = my_prng(1, 3);
-            int id = my_prng(numStudents - 1);
+            int id = my_prng(numStudents);
             bank.deposit(id, amount);
             printer.print(Printer::Parent, Parent::States::DepositGift, id,
                           amount);
