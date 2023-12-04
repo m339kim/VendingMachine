@@ -23,7 +23,7 @@ int main(int argc, char * argv[]) {
     Groupoff groupoff(printer, configParms.numStudents, configParms.sodaCost, configParms.groupoffDelay);
     NameServer nameServer(printer, configParms.numVendingMachines, configParms.numStudents);
     VendingMachine **machines = new VendingMachine*[configParms.numVendingMachines];
-    for (unsigned int i = 0; i < configParms.numVendingMachines, i++) {
+    for (unsigned int i = 0; i < configParms.numVendingMachines; i++) {
         machines[i] = new VendingMachine(printer, nameServer, i, configParms.sodaCost);
     }
     BottlingPlant bottlingPlant(printer, nameServer, configParms.numVendingMachines, configParms.maxShippedPerFlavour, configParms.maxStockPerFlavour, configParms.timeBetweenShipments);
@@ -37,7 +37,7 @@ int main(int argc, char * argv[]) {
     }
     delete [] students;
     delete bottlingPlant;
-    for (unsigned int i = 0; i < configParms.numVendingMachines, i++) {
+    for (unsigned int i = 0; i < configParms.numVendingMachines; i++) {
         delete machines[i];
     }
     delete [] machines;
