@@ -12,6 +12,8 @@ _Task BottlingPlant {
   
   Truck * truck;
   uCondition bench;
+  uBaseCoroutine* currTask;
+  unsigned int *currCargo;
 
 	enum PlantStates : char {
 		Start = 'S',

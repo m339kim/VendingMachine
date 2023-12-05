@@ -40,12 +40,20 @@ void BottlingPlant::main() {
 
         printer.print(Printer::BottlingPlant, PlantStates::GenSoda, total);
         try {
-            _Accept(getShipment){
+            _Accept(getShipment) {
+                for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
+                    currCargo[i] = production[i];
+                }
 
-            } or _Accept(~BottlingPlant) {
+                if (shutdown) _Resume Shutdown() _At *currTask;
+
+                printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
+                bench.signalBlock();
+            }
+            or _Accept(~BottlingPlant) {
                 shutdown = true;
                 _Accept(getShipment);
-            
+
                 break;
             }
 
@@ -57,11 +65,7 @@ void BottlingPlant::main() {
 }
 
 void BottlingPlant::getShipment(unsigned int cargo[]) {
-    for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
-        cargo[i] = production[i];
-    }
-
-    if (shutdown) _Throw Shutdown();
-
-    printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
+    currCargo = cargo;
+    currTask = &uThisTask();
+    bench.wait();
 }
