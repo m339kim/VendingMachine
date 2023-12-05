@@ -17,14 +17,13 @@ NameServer::~NameServer() { delete[] machines; delete[]studentMachineIds; }
 void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
 
-    for (unsigned int i = machineIndex; i < numVendingMachines; i++) {
+    for (unsigned int i = 0; i < numVendingMachines; i++) {
         _Accept(VMregister) {
             machines[i] = newMachine;
             printer.print(Printer::Kind::NameServer, RegisterVM,
                           newMachine->getId());
         };
     }
-    machineIndex = 0;
 
     for (;;) {
         _Accept(~NameServer) {
