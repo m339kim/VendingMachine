@@ -56,6 +56,7 @@ _Task WATCardOffice {
 	unsigned int numCouriers;
 	Courier ** couriers;
 	vector<Job *> jobs;
+	uCondition bench;
 	
 	void main();
 
