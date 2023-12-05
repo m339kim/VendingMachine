@@ -5,7 +5,6 @@
 #include "nameServer.h"
 
 
-
 Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
     unsigned int numVendingMachines, unsigned int maxStockPerFlavour ):
     printer(prt), 
@@ -42,7 +41,9 @@ void Truck::main() {
         
         unsigned int curr = machineIndex;
         for (;;) {
-            if (!(cargo[0] || cargo[1] || cargo[2] || cargo[3])) break;
+            if (!(cargo[0] || cargo[1] || cargo[2] || cargo[3])) { // no cargo
+                break;
+            }
             VendingMachine *vm = machines[curr];
             fillStock(vm);
             curr += 1;
@@ -64,7 +65,7 @@ void Truck::fillStock(VendingMachine * machine) {
         stock[i] += fill;
         cargo[i] -= fill;
     }
-    // failed filling vm
+    // failed filling vend
     if (noReplen > 0) printer.print(Printer::Kind::Truck, Truck::States::FailedFillingVM, machine->getId(), noReplen);
     printer.print(Printer::Kind::Truck, Truck::States::DoneDelivery, machine->getId(), shipmentCount());
     machine->restocked();
@@ -76,6 +77,7 @@ void Truck::fillStock(VendingMachine * machine) {
     } 
 }
 
+// counts total shipments in cargo[]
 unsigned int Truck::shipmentCount() {
     int total = 0;
     for (int i = 0; i < 4; i++) {
