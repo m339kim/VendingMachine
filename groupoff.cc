@@ -10,9 +10,10 @@ Groupoff::Groupoff(Printer& prt, unsigned int numStudents,
       groupoffDelay(groupoffDelay){};
 
 WATCard::FWATCard Groupoff::giftCard() {
+    int index = futGiftCards.size();
     bench.wait();
 
-    return futGiftCards.back();
+    return futGiftCards.at(index);
 }
 
 Groupoff::~Groupoff() {
