@@ -1,8 +1,7 @@
 #include "bank.h"
 #include <algorithm>
 
-Bank::Bank(unsigned int numStudents) : numStudents(numStudents) {
-    balances = new unsigned int[numStudents];
+Bank::Bank(unsigned int numStudents) : numStudents(numStudents), balances(new unsigned int[numStudents]) {
     std::fill(balances, balances + numStudents, 0);
 }
 
