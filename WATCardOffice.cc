@@ -96,7 +96,7 @@ void WATCardOffice::main() {
             printer.print(Printer::Kind::WATCardOffice,
                           WATCardOffice::States::CreateComplete, currSid, currAmount);
             bench.signalBlock();
-        }
+        } or
         _Accept(transfer) {
             Job* job = new Job(currSid, currAmount, currWATCard);
             jobs.push_back(job);
