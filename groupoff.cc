@@ -1,5 +1,4 @@
 #include "groupoff.h"
-
 #include "printer.h"
 
 Groupoff::Groupoff(Printer& prt, unsigned int numStudents,
@@ -7,18 +6,17 @@ Groupoff::Groupoff(Printer& prt, unsigned int numStudents,
     : printer(prt),
       numStudents(numStudents),
       sodaCost(sodaCost),
-      groupoffDelay(groupoffDelay){};
+      groupoffDelay(groupoffDelay) {};
 
 WATCard::FWATCard Groupoff::giftCard() {
-    int index = futGiftCards.size();
-    bench.wait();
-
-    return futGiftCards.at(index);
+    WATCard::FWATCard futureGiftCard;
+    futGiftCards.push_back(futureGiftCard);
+    return futureGiftCard;
 }
 
 Groupoff::~Groupoff() {
     for (int i = 0; i < legitWATCards.size(); i++) {
-        delete legitWATCards.at(i);  // dealloc
+        delete legitWATCards.at(i); // dealloc
     }
 }
 
@@ -26,29 +24,25 @@ void Groupoff::main() {
     printer.print(Printer::Groupoff, Groupoff::States::Start);
 
     for (unsigned int i = 0; i < numStudents; i++) {
-        _Accept(giftCard) {
-            WATCard::FWATCard futureGiftCard;
-            futGiftCards.push_back(futureGiftCard);
-            bench.signal();
-        };
+        _Accept(giftCard){};
     }
 
     for (unsigned int i = 0; i < numStudents; i++) {
-        _Accept(~Groupoff) { break; }
+        _Accept(~Groupoff) { break; } 
         _Else {
             // give a rando a giftcard
             yield(groupoffDelay);
 
-            WATCard* w = new WATCard();
+            WATCard * w = new WATCard(); 
             w->deposit(sodaCost);
             legitWATCards.push_back(w);
             unsigned int student_idx = my_prng(futGiftCards.size());
-
+            
             futGiftCards[student_idx].delivery(w);
 
+            futGiftCards.erase(futGiftCards.begin() + student_idx);
             // print after delivery
-            printer.print(Printer::Kind::Groupoff,
-                          Groupoff::States::DepositGift, sodaCost);
+            printer.print(Printer::Kind::Groupoff, Groupoff::States::DepositGift, sodaCost);
         }
     }
     printer.print(Printer::Groupoff, Groupoff::States::Finished);
