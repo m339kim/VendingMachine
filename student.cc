@@ -30,69 +30,55 @@ void Student::main() {
 
     char cardType = '\0';
     WATCard* cardToUse;
-
     for (unsigned int i = 0; i < bottlesToPurchase; i++) {
-        _Select(giftcard || watcard) {  // either card available
-            try {
-                // use giftcard first if available
-                if (giftcard.available()) {
-                    cardToUse = giftcard();
-                    cardType = Student::States::GiftCardSoda;
-                } else if (watcard.available()) {
+        yield(my_prng(1, 10));
+        for (;;) {
+            _Select(giftcard) {
+                WATCard* cardToUse = giftcard();
+                giftcard.reset();
+                cardType = States::GiftCardSoda;
+            }
+            or _Select(watcard) {
+                try {
                     cardToUse = watcard();
-                    cardType = Student::States::BoughtSoda;
+                    cardType = States::BoughtSoda;
+                } catch (WATCardOffice::Lost) {
+                    watcard = cardOffice.create(id, 5);
+                    continue;
                 }
-
-                yield(my_prng(1, 10));
-
-                // make soda purchase
-                currMachine->buy((VendingMachine::Flavours)favouriteFlavour,
-                                 *cardToUse);
+            }
+            try {
+                currMachine.buy(favouriteFlavour, card);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
-                              cardToUse->getBalance());
-                if (giftcard.available()) giftcard.reset();
-            } catch (WATCardOffice::Lost&
-                         e) {  // courier lost student's WATCard during transfer
-                printer.print(Printer::Kind::Student, id,
-                              Student::States::WATCardLost);
-                watcard.reset();
-                watcard = cardOffice.create(id, 5);  // initial $5 balance
-            } catch (VendingMachine::Free& e) {
-                if (giftcard.available()) {
-                    // Gotta handle edge case where:
-                    //  student who only buys one soda uses the gift card.
-                    if (cardType == States::BoughtSoda) {
-                        cardType = Student::States::FreeSodaAdGC;
-                    } else {
-                        cardType = States::BoughtSoda;
-                    }
-                } else if (watcard.available()) {
-                    if (cardType == States::BoughtSoda) {
-                        cardType = Student::States::FreeSodaAdWC;
-                    } else {
-                        cardType = States::BoughtSoda;
-                    }
-                }
-                printer.print(Printer::Kind::Student, id, cardType,
-                              favouriteFlavour, cardToUse->getBalance());
-                if (my_prng(2) == 0) {
-                    yield(4);  // watch ad
+                              card->getBalance());
+                break;
+            } catch (VendingMachine::Free free) {
+                if (cardType == States::BoughtSoda) {
+                    cardType = States::FreeSodaAdGC;
                 } else {
-                    printer.print(Printer::Kind::Student, id,
-                                  Student::States::SkippedAd);
+                    cardType = States::FreeSodaAdGC;
                 }
-
-            } catch (VendingMachine::Funds& e) {
+                printer.print(Printer::Student, id, cardType, favouriteFlavour,
+                              card->getBalance());
+                if (my_prng(2) == 0) {
+                    yield(4);
+                } else {
+                    cardType = States::SkippedAd;
+                    printer.print(Printer::Student, id, cardType);
+                }
+                break;
+            } catch (VendingMachine::Funds funds) {
                 // gift card is guaranteed to have enough money I think
                 watcard =
-                    cardOffice.transfer(id, 5 + currMachine->cost(), cardToUse);
-            } catch (VendingMachine::Stock& e) {
+                    cardOffice.transfer(id, 5 + currMachine.cost(), cardToUse);
+                continue;
+            } catch (VendingMachine::Stock) {
                 currMachine = nameServer.getMachine(id);
-                printer.print(Printer::Student, id,
-                              Student::States::SelectingVM,
-                              currMachine->getId());
+                printer.print(Printer::Student, id, States::SelectingVM,
+                              currMachine.getId());
+                continue;
             }
         }
     }
-    printer.print(Printer::Student, id, Student::States::Finished);
+    printer.print(Printer::Student, id, States::Finished);
 }
