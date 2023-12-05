@@ -83,11 +83,10 @@ void Student::main() {
         }
     }
 
-    if (watcard.available()) {
-        try {
-            delete watcard();
-        } catch (...) {
-        }
+    try {
+        delete watcard();
+    } catch (...) {
     }
+
     printer.print(Printer::Student, id, States::Finished);
 }
