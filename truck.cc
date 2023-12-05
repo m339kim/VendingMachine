@@ -12,8 +12,8 @@ Truck::Truck(Printer &prt, NameServer &nameServer, BottlingPlant &plant,
       nameServer(nameServer),
       plant(plant),
       numVendingMachines(numVendingMachines),
-      maxStockPerFlavour(maxStockPerFlavour) {
-    cargo = new unsigned int[4];
+      maxStockPerFlavour(maxStockPerFlavour),
+      cargo(new unsigned int[4]) {
     for (unsigned int i = 0; i < 4; i++) {
         cargo[i] = 0;
     }

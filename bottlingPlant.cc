@@ -9,14 +9,14 @@ BottlingPlant::BottlingPlant(Printer &prt, NameServer &nameServer,
                              unsigned int timeBetweenShipments)
     : printer(prt),
       nameServer(nameServer),
+      truck(new Truck(printer, nameServer, *this, numVendingMachines,
+                      maxStockPerFlavour)),
       numVendingMachines(numVendingMachines),
       maxShippedPerFlavour(maxShippedPerFlavour),
       maxStockPerFlavour(maxStockPerFlavour),
-      timeBetweenShipments(timeBetweenShipments) {
-    // change here to
-    truck = new Truck(printer, nameServer, *this, numVendingMachines,
-                      maxStockPerFlavour);
-    production = new unsigned int[Flavours::NUM_FLAVOURS];
+      timeBetweenShipments(timeBetweenShipments),
+      production(production = new unsigned int[Flavours::NUM_FLAVOURS]) {
+
 }
 
 BottlingPlant::~BottlingPlant() {
