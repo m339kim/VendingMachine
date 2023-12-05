@@ -17,6 +17,7 @@ _Task VendingMachine {
     bool restocking;
 
     uCondition bench;
+    uBaseCoroutine* currTask;
 
     enum States : char {
         Start = 'S',  // c // cost c per bottle
