@@ -52,7 +52,7 @@ void BottlingPlant::main() {
             break;
         }
 
-        } catch(uMutexFailure::RendezvousFailure) { break; }
+        } catch(uMutexFailure::RendezvousFailure &) { break; }
     }
     printer.print(Printer::BottlingPlant, PlantStates::Finished);
 }
