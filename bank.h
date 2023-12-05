@@ -4,7 +4,6 @@ _Monitor Bank {
 
 	unsigned int numStudents;
 	unsigned int* balances; // of students
-    // uCondition *balanceChange;
 
     public:
         Bank( unsigned int numStudents );
