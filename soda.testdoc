@@ -1,0 +1,356 @@
+# Case 1: Courier loses student card, properly handled
+./soda soda.config 3
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Stud2   Stud3   Mach0   Mach1   Mach2   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                                                       S2                      S
+                C0,5    R0      S       S       S0,2    S3,8    S3,7    S3,2            S2      S2
+                C1,5    R1
+D3,3            C2,5    R2
+                C3,5    N0,0            G4      V0
+D0,2            W       N1,1                            V1                                              t3,5
+                W       N2,2                                    V2                                      T3,5
+D3,1                    N3,0                                            V0                              t2,5
+                W                                                                                       T2,5
+        D2              N3,1                                            V1                              t1,5
+                        N3,2    P4      P                               V2
+D0,1                    N3,0    d0,4                                    V0      r
+                                U0,16
+                                D0,0                                                                    T1,5
+                W                                                                                       <L1>
+                <C1,5>  N0,1            G3      V1      <L>                     R                       t0,5
+D0,3            <W>     N2,2                                    V2                                      T0,5
+
+...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...
+
+***********************
+- Courier0 lost Student1's WATCard @ <L1>. During the time of loss, the WATOffice was completing the task of creating WATCards for students.
+- So, WATCardOffice starts the task of recreating Student1's WATCard on the next time unit, then creates a new card for Student 1 @<C1,5>.
+
+
+
+# Case 2: Student gets free ad, but doesn't watch it. 
+./soda soda.config 123
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Mach0   Mach1   Mach2   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                                       S2                      S
+D1,1                    R0      S       S       S0,4    S2,5            S2      S2
+D1,1            C0,5    R1              G6
+D0,3            C1,5    R2
+                W       N0,0                    V0                                      t1,5
+D1,1    D2              N1,1                            V1
+D0,3            W                                                                       T1,5
+                        N0,2                                                            t0,5
+D0,3                    N1,0    P6      P       V2      V0                              T0,5
+D1,1    D2              N0,1    d0,6    G4                      r
+D1,3    F               N1,2    U0,14           V1
+D1,3                    N0,0    D0,0            V0      V2      R
+D0,3                    N1,1    P4      P       B0,3    V1      B0,1
+D1,3                    N1,2    d1,4    G6      B0,1    V2      B0,0    r
+D0,1                    N1,0    U1,16                   V0
+D1,2                    N0,1    D1,0            V1                      R
+                T0,7    N1,2                            V2
+D1,2            W       N1,0            P               V0                              t0,7
+D1,2                    N1,1    P6      G3              V1                              T0,7
+D0,1                            d2,6            A0,8                    A       r
+                                U2,14                                   A
+D0,2                            D2,0    P               A2,5                    R
+D1,2                    N0,2    P3
+D1,3                    N1,0    d0,3    G6      V2      V0      r               B0,1
+D1,1                            U0,13           B0,6
+D1,3                            D0,0            F               R
+D1,2                            P6      P               B2,3    B2,1
+                                d1,6                                    r
+                                U1,12   G5
+D0,2                            D1,0                    B2,1    B2,0    R
+D0,2                    N1,1    P5      P               V1
+                                d2,5                                            r
+                                U2,10
+D1,2            T1,7    N1,2    D2,0    G5              V2                      R
+D1,2            W               P5      P                                               t1,7
+D0,1                            d0,5    G4                      r               A       T1,7
+D0,2                            U0,10                   A2,8
+D0,3                            D0,0    P                       R
+                                P4
+                                d1,4                                    r
+D1,1                            U1,8    G6
+D1,2                            D1,0                    A2,8            R       A
+                                        P               X
+D0,1                            P6      G5              F
+D0,3                            d2,6                                            r
+                                U2,7
+D0,1                            D2,1                                            R
+                                d0,1                            r
+D1,3                            U0,9
+D1,2                            D0,0                            R
+D0,2                            F       F
+D1,1                                                            F       F
+D0,1                    F                                                       F
+D0,1                                                                                    F
+D0,1            F
+D0,3
+F
+
+
+# Case 3: Flat tire
+./soda soda.config 1 2
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Mach0   Mach1   Mach2   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                                       S2                      S
+D1,3                    R0      S       S       S1,4    S2,1            S2      S2
+                C0,5    R1              G8
+D1,1            C1,5    R2
+D1,2            W       N0,0                    V0                                      t1,5
+D0,1    D2      W       N1,1                            V1                              T1,5
+D1,1                                                                                    t0,5
+        D2              N1,2    P8      P               V2                              T0,5
+D0,1    F               N0,0    d0,8    G4      V0
+D0,1                    N1,1    U0,12                   V1      r
+D0,2                    N1,2    D0,0                    V2      R
+D0,1                    N1,0                    G1,0    V0      B1,1
+                                P4      P               B2,3    B2,1
+D0,2                            d1,4    G4      B1,3    F       B1,0    r
+D1,1                    N0,1    U1,16
+D1,1                    N0,2    D1,0            V1                      R
+D1,3                    N0,0                    V2
+                        N0,1    P4      P       V0
+D0,3                    N0,2    d2,4    G3      V1                              r
+D0,1                            U2,16           V2
+D1,2                    N0,0    D2,0            V0                              R
+D1,2                    N0,1                    V1
+D1,2                    N0,2    P3      P       V2
+D1,3                    N0,0    d0,3    G5      V0              r
+D1,3                            U0,12
+D1,1                            D0,0                            R
+D0,3                            P5      P       B1,1            B1,0
+                                d1,5    G5                              r
+D0,1                            U1,11
+                        N0,1    D1,0            V1                      R
+D1,2            T0,7            W
+D1,3            W                                                                       t0,7
+                                                                                        T0,7
+D0,2                            P5      P                                               L0
+                C0,5            d2,5                                            r
+                                U2,11   G2
+D1,2            W               D2,0                                            R       t0,5
+                                        P                                               T0,5
+D0,3                            P2      G3                                              L0
+D0,3            C0,5            d0,2                            r
+                W               U0,11
+D1,3                            D0,0                            R                       t0,5
+                                P3      P                                               T0,5
+D0,3                            d1,3    G3      B1,3                    B1,0
+D0,1                            U1,9            F                       r
+D0,3                            D1,0                                    R
+D1,1                            F       F
+D0,3                                                            F
+D0,2                                                                    F       F
+D1,2                    F
+D1,2            F                                                                       F
+D1,1
+F
+***********************
+
+
+# Case 4: Wait for any Vending Machine to open up
+No bottles of each students’ favourite flavours in all vending machines.
+Student repeatedly gets assigned to vending machines until the plant generates bottles of flavours sets them ready for delivery. 
+
+./soda soda.config 3101
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Mach0   Mach1   Mach2   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                                       S2                      S
+                C0,5    R0      S       S       S2,6    S3,7            S2      S2
+                C1,5    R1
+D0,3            W       R2                                                              t1,5
+                W                                                                       T1,5
+                        N0,0            G5      V0                                      t0,5
+D1,2                    N1,1                            V1                              T0,5
+                        N1,2                            V2
+D0,1    D2              N1,0                            V0
+                        N0,1    P5      P       V1
+                                d0,5                            r
+                                U0,15
+                        N1,2    D0,0                    V2      R
+                        N0,0                    V0              A
+D1,2                    N1,1            G3      A2,5    V1
+        D2              N1,2                            V2
+D0,1    F               N1,0    P3      P               V0
+                                d1,3                                    r
+                                U1,17
+                        N1,1    D1,0                    V1              R
+D1,2                    N0,2            G4      V2
+                        N0,0                    V0
+D0,2                    N1,1                            V1
+                        N0,2    P4      P       V2
+                                d2,4                                            r
+                                U2,16
+                        N1,0    D2,0                    V0                      R
+D1,1                    N0,1            G2      V1
+                                P2      P
+                                d0,2                            r
+                                U0,14
+                        N1,2    D0,0                    V2                      B3,0
+D1,2                    N0,0            G1      V0      B3,3    R
+                                P1      P       B2,3            B2,0
+                                d1,1                                    r
+                                U1,16
+D1,2                    N1,1    D1,0    G4              V1              R
+                        N0,2                    V2      B3,1            B3,0    B2,0
+                                P4      P       B2,1
+                                d2,4                                            r
+                                U2,14
+D1,1                    N1,0    D2,0                    V0                      R
+                        N1,1            G2              V1
+D0,2            T0,7    N1,2                            V2
+                W       N1,0                            V0                              t0,7
+                        N1,1                            V1
+D0,3                    N1,2    P2      P               V2
+                                d0,2                            r
+                                U0,13
+D0,1            T1,7    N1,0    D0,0    G6      B2,6    V0      R               B2,1    T0,7
+                W                                                                       t1,7
+                                P6      P       A2,6    B3,6    B3,1            A       T1,7
+                                d1,6                                    r
+                                U1,11
+D0,1                    N0,1    D1,0    G4      V1                      R
+                                                B2,4                    B2,1
+D0,3                    N1,2                    F       B3,4    B3,0
+                        N1,0                            V2
+D0,3                            P4      P               V0
+                                d2,4                                            r
+                                U2,12
+                        N1,1    D2,0                    V1                      R
+                        N1,2            G5              V2                      B3,0
+D1,3                    N1,0                            B3,2
+                                P5      P               V0
+                        N1,1    d0,5                    V1      r
+                                U0,10
+D1,1                    N1,2    D0,0    G6              V2      R
+                        N1,0                            V0
+D1,3                    N1,1                            V1
+                        N1,2                            V2
+                        N1,0    P6      P               V0
+                                d1,6                                    r
+                                U1,6
+D0,2                    N1,1    D1,0    G6              V1              R
+D1,1                            P6      P               B3,0            B3,1
+                                d2,6                                            r
+                                U2,7
+D0,3            T1,7            D2,0                                            R
+                W                                                                       t1,7
+                                                        B3,5            B3,0            T1,7
+D1,1                                    G4              F
+D1,1                            F       F                       F
+D1,1                    F                                               F       F
+D0,2
+D0,3            F                                                                       F
+D1,2
+F
+***********************
+
+Case 5: Courier loses Watcard, but student is assigned a vending machine. 
+./soda soda.config 31
+But, plant hasn’t started generating sodas 
+(therefore truck hasn’t delivered anything → Vending machines all empty). 
+AND on the first delivery, the flavour the student wanted wasn’t delivered 
+to the assigned vending machine.
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Mach0   Mach1   Mach2   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                                       S2                      S
+                C0,5    R0      S       S       S1,1    S1,4            S2      S2
+                C1,5    R1
+D1,2            W       R2                                                              t1,5
+                                                                                        T1,5
+                W                                                                       L1
+                        N0,0            G2      V0                                      t0,5
+D1,3                    N1,1                            V1                              T0,5
+        D2      C1,5    N0,2                    V2
+D0,2            W       N0,0                    V0                                      t1,5
+                        N0,1                    V1
+D1,1                    N1,2    P2      P               V2
+                                d0,2                            r
+                                U0,18
+                        N0,0    D0,0            V0                                      T1,5
+        D2              N1,1                            V1      R
+        F               N1,2            G3              V2
+                                P3      P
+                                d1,3                                    r
+                                U1,17
+D0,2                    N1,0    D1,0                    V0              R
+                        N0,1                    V1                      B1,0
+                                                G1,0
+D0,1                    N1,2            G3      F       V2
+                        N1,0                            V0
+D1,2                    N1,1    P3      P               V1
+                                d2,3                                            r
+                                U2,17
+                        N1,2    D2,0    G5              V2                      R
+D1,2                    N1,0                            B1,3                    B1,0
+                        N1,1                            V0
+D1,1                    N1,2                            V1
+                                P5      P               V2
+                                d0,5                            r
+                                U0,13
+D0,1                    N1,0    D0,0    G0              V0      R
+                                                        A1,3    A
+D0,1                            P0      P               X
+                                        G3
+                                P3      P
+                                d1,3                                    r
+                                U1,15
+D0,3                    N1,1    D1,0    G1              B1,1    B1,0    R
+                T1,7            P1      P               V1
+                                d2,1                                            r
+                                U2,17
+D1,2            W               D2,0    G3                                      R       t1,7
+D1,1                                                    B1,6            B1,1            T1,7
+D0,3                                    F               F
+D0,3                            F                               F       F
+D1,1                    F                                                       F
+D1,2            F                                                                       F
+D1,1
+F
+***********************
+Courier loses Student 0’s WATCard.
+Request Watoffice for a new one.
+But has to wait because all vending machines are empty.
+
+
+
+# Case 6: More students than vending machines (therefore, round-robin.)
+--- soda.config ---
+SodaCost				2	# Manufacturer Suggested Retail Price (MSRP) per bottle
+NumStudents				4	#### number of students to create
+MaxPurchases			8	# maximum number of bottles a student purchases
+NumVendingMachines		3	#### number of vending machines
+MaxStockPerFlavour		5	# maximum number of bottles of each flavour in a vending machine
+MaxShippedPerFlavour	3	# maximum number of bottles of each flavour generated by the bottling
+							#    plant per production run
+TimeBetweenShipments	3	# length of time between shipment pickup
+GroupoffDelay			10	# length of time between initializing gift cards
+ParentalDelay			5	# length of time between deposits of funds
+NumCouriers				1	# maximum number of couriers in the pool
+--- soda.config ---
+./soda soda.config 333 3
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Stud2   Stud3   Mach0   Mach1   Mach2   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                                                       S2                      S
+D2,3                    R0      S       S       S1,8    S1,7    S0,5    S2,3            S2      S2
+D2,1            C0,5    R1              G3
+D1,1            C1,5    R2
+D2,1            C2,5    N0,0                    <V0>
+                C3,5    N1,1                            <V1>
+D3,1            W       N2,2                                    <V2>                                      t3,5
+D3,3            W       N3,0                                            <V0>                              T3,5
+...             ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...     ...
+D0,1                                                    F
+D2,3                            F       F
+D1,2                                                                            F       F
+D3,1                    F                                                                       F
+D3,1            F                                                                                       F
+D0,3
+F
+***********************
+- In this test case, NumStudents of soda.config has been updated 2->4, thus exceeding the total number of vending machines.
+- Hence, as specified, students get assigned to vending machines in round-robin fashion, as demonstrated in this test case
+    in <brackets>.
