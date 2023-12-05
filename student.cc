@@ -36,7 +36,7 @@ void Student::main() {
         for (;;) {
             _Select(giftcard || watcard) {
                 if (giftcard.available()) {
-                    WATCard* cardToUse = giftcard();
+                    cardToUse = giftcard();
                     giftcard.reset();
                     cardType = States::GiftCardSoda;
                 } else {
