@@ -9,7 +9,7 @@ Bank::Bank(unsigned int numStudents) : numStudents(numStudents) {
 
 Bank::~Bank() {
     // delete [] balances;
-    delete balances;
+    delete [] balances;
 }
 
 void Bank::deposit(unsigned int id, unsigned int amount) {
