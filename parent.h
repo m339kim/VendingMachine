@@ -7,21 +7,23 @@ _Monitor Bank;
 extern PRNG my_prng;
 
 _Task Parent {
-    private:
-        Printer & printer;
-        Bank & bank;
+   private:
+    Printer & printer;
+    Bank & bank;
 
-        enum States : char {
-            Start = 'S',
-            DepositGift = 'D', // s,g // student s receiving gift, amount of gift g
-            Finished = 'F'
-        };
-        
-        unsigned int numStudents;
-        unsigned int parentalDelay;
-        
-        void main();
-  public:
-	Parent( Printer & prt, Bank & bank, unsigned int numStudents, unsigned int parentalDelay );
+    enum States : char {
+        Start = 'S',
+        DepositGift = 'D',  // s,g // student s receiving gift, amount of gift g
+        Finished = 'F'
+    };
+
+    unsigned int numStudents;
+    unsigned int parentalDelay;
+
+    void main();
+
+   public:
+    Parent(Printer & prt, Bank & bank, unsigned int numStudents,
+           unsigned int parentalDelay);
     ~Parent();
 };

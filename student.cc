@@ -8,9 +8,7 @@ Student::Student(Printer& prt, NameServer& nameServer,
       cardOffice(cardOffice),
       groupoff(groupoff),
       id(id),
-      maxPurchases(maxPurchases) {
-    return;
-}
+      maxPurchases(maxPurchases) {}
 
 Student::~Student() {}
 

@@ -20,13 +20,12 @@ Printer::~Printer() {
 
 Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines,
                  unsigned int numCouriers)
-    : numStudents(numStudents),
+    : buffer(new BufferEntry[totalLength]), numStudents(numStudents),
       numVendingMachines(numVendingMachines),
       numCouriers(numCouriers),
       totalLength(NUM_STATIC_KIND + numStudents + numVendingMachines +
                   numCouriers) {
     // Parent, Groupoff, WATOff, Names, Truck, Plant, Stud..., Mach..., Cour...
-    buffer = new BufferEntry[totalLength];
     for (unsigned int i = 0; i < totalLength; i++) {
         buffer[i].state = EMPTY;
     }
