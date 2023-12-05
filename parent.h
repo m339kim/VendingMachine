@@ -4,9 +4,7 @@
 
 _Monitor Printer;
 _Monitor Bank;
-
 extern PRNG my_prng;
-
 
 _Task Parent {
     private:

@@ -22,10 +22,8 @@ _Task Groupoff {
     unsigned int sodaCost; 
     unsigned int groupoffDelay;
 
-    // hmm maybe change to arrays for better performance?
-    // we'll see how this goes
 	vector< WATCard::FWATCard > futGiftCards;
-	vector< WATCard* > legitWATCards; //
+	vector< WATCard* > legitWATCards;
 
 	void main();
 	public:

@@ -12,7 +12,6 @@ _Task WATCardOffice;
 extern PRNG my_prng;
 
 _Task Student {
-    // VendingMachine?
 	Printer &printer;
     NameServer &nameServer;
     WATCardOffice &cardOffice;

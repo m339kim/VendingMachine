@@ -41,10 +41,7 @@ void BottlingPlant::main() {
         }
         printer.print(Printer::BottlingPlant, PlantStates::GenSoda, total);
         _Accept(getShipment){
-            // waiting for truck to pickup products..
 
-            // added
-            // printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
         } or _Accept(~BottlingPlant) {
             shutdown = true;
             _Accept(getShipment);
@@ -59,9 +56,9 @@ void BottlingPlant::getShipment(unsigned int cargo[]) {
     for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
         cargo[i] = production[i];
     }
-    if (shutdown) {
-        // ?
-        _Throw Shutdown();  // nice
-    }
+
+
+    if (shutdown) _Throw Shutdown();
+
     printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
 }

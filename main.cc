@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
     int processors = 1;
     ConfigParms configParms;
     struct cmd_error {};
-    try {
+
+    try { // process command-line arguments
         switch (argc) {
             case 4:
                 if (strcmp(argv[3], "d") != 0) {
@@ -50,36 +51,42 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    Printer printer(configParms.numStudents, configParms.numVendingMachines,
-                    configParms.numCouriers);
+    // set processors
+    uProcessor p[processors - 1]; // number of kernel threads
+    if ( processors == 1 ) uThisProcessor().setPreemption( 0 ); // turn off time - slicing for reproducibility
+
+    // init
+    Printer printer(configParms.numStudents, configParms.numVendingMachines, configParms.numCouriers);
     Bank bank(configParms.numStudents);
-    Parent parent(printer, bank, configParms.numStudents,
-                  configParms.parentalDelay);
+    Parent parent(printer, bank, configParms.numStudents, configParms.parentalDelay);
     WATCardOffice watcardOffice(printer, bank, configParms.numCouriers);
-    Groupoff groupoff(printer, configParms.numStudents, configParms.sodaCost,
-                      configParms.groupoffDelay);
-    NameServer nameServer(printer, configParms.numVendingMachines,
-                          configParms.numStudents);
-    VendingMachine **machines =
-        new VendingMachine *[configParms.numVendingMachines];
+    Groupoff groupoff(printer, configParms.numStudents, configParms.sodaCost, configParms.groupoffDelay);
+    
+    // init productions
+    NameServer nameServer(printer, configParms.numVendingMachines, configParms.numStudents);
+    VendingMachine ** machines = new VendingMachine *[configParms.numVendingMachines];
     for (unsigned int i = 0; i < configParms.numVendingMachines; i++) {
-        machines[i] =
-            new VendingMachine(printer, nameServer, i, configParms.sodaCost);
+        machines[i] = new VendingMachine(printer, nameServer, i, configParms.sodaCost);
     }
+
     BottlingPlant *bottlingPlant = new BottlingPlant(
         printer, nameServer, configParms.numVendingMachines,
         configParms.maxShippedPerFlavour, configParms.maxStockPerFlavour,
         configParms.timeBetweenShipments);
+    
+    // init students
     Student **students = new Student *[configParms.numStudents];
     for (unsigned int i = 0; i < configParms.numStudents; i++) {
         students[i] = new Student(printer, nameServer, watcardOffice, groupoff,
                                   i, configParms.maxPurchases);
     }
-
+    // delete them
     for (unsigned int i = 0; i < configParms.numStudents; i++) {
         delete students[i];
     }
     delete[] students;
+
+    // delete plant
     delete bottlingPlant;
     for (unsigned int i = 0; i < configParms.numVendingMachines; i++) {
         delete machines[i];
