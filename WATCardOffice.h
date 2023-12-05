@@ -57,7 +57,9 @@ _Task WATCardOffice {
 	Courier ** couriers;
 	vector<Job *> jobs;
 	uCondition bench;
-	
+	unsigned int currAmount;
+	unsigned int currSid;
+	WATCard *currWATCard;
 	void main();
 
 	public:

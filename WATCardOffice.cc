@@ -91,17 +91,17 @@ void WATCardOffice::main() {
             WATCard* watcard =
                 new WATCard();  // student must remember to free this memory
             // obtain funding from bank
-            Job* job = new Job(sid, amount, watcard);
+            Job* job = new Job(currSid, currAmount, watcard);
             jobs.push_back(job);
             printer.print(Printer::Kind::WATCardOffice,
-                          WATCardOffice::States::CreateComplete, sid, amount);
+                          WATCardOffice::States::CreateComplete, currSid, currAmount);
             bench.signalBlock();
         }
         _Accept(transfer) {
-            Job* job = new Job(sid, amount, card);
+            Job* job = new Job(currSid, currAmount, currWATCard);
             jobs.push_back(job);
             printer.print(Printer::Kind::WATCardOffice,
-                          WATCardOffice::States::TransferComplete, sid, amount);
+                          WATCardOffice::States::TransferComplete, currSid, currAmount);
             bench.signalBlock();
         }
         or _When(!jobs.empty()) _Accept(requestWork) {
@@ -112,12 +112,17 @@ void WATCardOffice::main() {
 }
 
 WATCard::FWATCard WATCardOffice::create(unsigned int sid, unsigned int amount) {
+    currSid = sid;
+    currAmount = amount;
     bench.wait();
     return jobs.back()->result;
 }
 
 WATCard::FWATCard WATCardOffice::transfer(unsigned int sid, unsigned int amount,
                                           WATCard* card) {
+    currSid = sid;
+    currAmount = amount;
+    currWATCard = card;
     bench.wait();
     return jobs.back()->result;
 }
