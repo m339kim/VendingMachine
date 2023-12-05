@@ -6,7 +6,7 @@ NameServer::NameServer(Printer& prt, unsigned int numVendingMachines,
       numVendingMachines(numVendingMachines),
       numStudents(numStudents) {
     machines = new VendingMachine*[numVendingMachines];
-    studentMachineIds = new unsigned int*[numStudents];
+    studentMachineIds = new unsigned int[numStudents];
 }
 
 NameServer::~NameServer() { delete[] machines; }
