@@ -83,9 +83,7 @@ void Student::main() {
             }
         }
     }
-    if (giftcard.available()) {
-        delete giftcard();
-    }
+
     if (watcard.available()) {
         delete watcard();
     }
