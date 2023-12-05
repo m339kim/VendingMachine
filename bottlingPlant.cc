@@ -27,8 +27,6 @@ BottlingPlant::~BottlingPlant() {
 void BottlingPlant::main() {
     printer.print(Printer::BottlingPlant, PlantStates::Start);
 
-    yield(timeBetweenShipments);  // exclude first productin
-
     for (;;) {
         // production run
         // getShipment or shutdown
