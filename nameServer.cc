@@ -7,6 +7,9 @@ NameServer::NameServer(Printer& prt, unsigned int numVendingMachines,
       numStudents(numStudents) {
     machines = new VendingMachine*[numVendingMachines];
     studentMachineIds = new unsigned int[numStudents];
+    for (unsigned int i = 0; i < numStudents; i++) {
+        studentMachineIds[i] = i % numVendingMachines;
+    }
 }
 
 NameServer::~NameServer() { delete[] machines; }
@@ -22,6 +25,7 @@ void NameServer::main() {
         };
     }
     machineIndex = 0;
+
     for (;;) {
         _Accept(~NameServer) {
             bench.signalBlock();
