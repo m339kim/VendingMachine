@@ -19,7 +19,10 @@ BottlingPlant::BottlingPlant(Printer &prt, NameServer &nameServer,
     production = new unsigned int[Flavours::NUM_FLAVOURS];
 }
 
-BottlingPlant::~BottlingPlant() {}
+BottlingPlant::~BottlingPlant() {
+    delete[] production;
+    delete truck;
+}
 
 void BottlingPlant::main() {
     printer.print(Printer::BottlingPlant, PlantStates::Start);
@@ -42,8 +45,7 @@ void BottlingPlant::main() {
             } or _Accept(~BottlingPlant) {
                 shutdown = true;
                 _Accept(getShipment);
-                delete[] production;
-                delete truck;
+            
                 break;
             }
 
