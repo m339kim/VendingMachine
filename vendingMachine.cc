@@ -47,11 +47,12 @@ void VendingMachine::main() {
                 }
                 bench.signalBlock();
             }
-            or
-                _When(!restocking) _Accept(inventory){
-
-                } or
-                _When(restocking) _Accept(restocked) {}
+            or _When(!restocking) _Accept(inventory) {
+                printer.print(Printer::Vending, id, States::StartTruckReload);
+            }
+            or _When(restocking) _Accept(restocked) {
+                printer.print(Printer::Vending, id, States::DoneTruckReload);
+            }
         } catch (uMutexFailure::RendezvousFailure&) {
         }
     }
@@ -59,12 +60,8 @@ void VendingMachine::main() {
 
 unsigned int* VendingMachine::inventory() {
     restocking = true;
-    printer.print(Printer::Vending, id, States::StartTruckReload);
     return stock;
 }
-void VendingMachine::restocked() {
-    restocking = false;
-    printer.print(Printer::Vending, id, States::DoneTruckReload);
-};
+void VendingMachine::restocked() { restocking = false; };
 _Nomutex unsigned int VendingMachine::cost() const { return sodaCost; }
 _Nomutex unsigned int VendingMachine::getId() const { return id; }
