@@ -21,6 +21,7 @@ _Task NameServer {
 
         VendingMachine *newMachine;
         VendingMachine **machines;
+        unsigned int *studentMachineIds;
         unsigned int machineIndex = 0;
 
         void main();
