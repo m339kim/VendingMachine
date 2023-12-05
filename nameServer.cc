@@ -12,7 +12,7 @@ NameServer::NameServer(Printer& prt, unsigned int numVendingMachines,
     }
 }
 
-NameServer::~NameServer() { delete[] machines; }
+NameServer::~NameServer() { delete[] machines; delete[]studentMachineIds; }
 
 void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
