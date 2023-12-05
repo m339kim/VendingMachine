@@ -53,7 +53,7 @@ void VendingMachine::main() {
             or _When(restocking) _Accept(restocked) {
                 printer.print(Printer::Vending, id, States::DoneTruckReload);
             }
-        } catch (uMutexFailure::RendezvousFailure&) {
+        } catch (&uMutexFailure::RendezvousFailure&) {
         }
     }
 }
@@ -62,6 +62,9 @@ unsigned int* VendingMachine::inventory() {
     restocking = true;
     return stock;
 }
+
 void VendingMachine::restocked() { restocking = false; };
+
 _Nomutex unsigned int VendingMachine::cost() const { return sodaCost; }
+
 _Nomutex unsigned int VendingMachine::getId() const { return id; }

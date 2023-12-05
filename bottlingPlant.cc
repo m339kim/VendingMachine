@@ -15,9 +15,7 @@ BottlingPlant::BottlingPlant(Printer &prt, NameServer &nameServer,
       maxShippedPerFlavour(maxShippedPerFlavour),
       maxStockPerFlavour(maxStockPerFlavour),
       timeBetweenShipments(timeBetweenShipments),
-      production(production = new unsigned int[Flavours::NUM_FLAVOURS]) {
-
-}
+      production(new unsigned int[Flavours::NUM_FLAVOURS]) {}
 
 BottlingPlant::~BottlingPlant() {
     delete[] production;
@@ -63,7 +61,7 @@ void BottlingPlant::main() {
                 break;
             }
 
-        } catch (uMutexFailure::RendezvousFailure) {
+        } catch (&uMutexFailure::RendezvousFailure) {
             break;
         }
     }
