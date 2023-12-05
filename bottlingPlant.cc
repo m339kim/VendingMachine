@@ -14,7 +14,8 @@ BottlingPlant::BottlingPlant(Printer &prt, NameServer &nameServer,
       maxStockPerFlavour(maxStockPerFlavour),
       timeBetweenShipments(timeBetweenShipments) {
     // change here to
-
+    truck = new Truck(printer, nameServer, *this, numVendingMachines,
+                      maxStockPerFlavour);
     production = new unsigned int[Flavours::NUM_FLAVOURS];
 }
 
@@ -25,8 +26,7 @@ BottlingPlant::~BottlingPlant() {
 
 void BottlingPlant::main() {
     printer.print(Printer::BottlingPlant, PlantStates::Start);
-    truck = new Truck(printer, nameServer, *this, numVendingMachines,
-                      maxStockPerFlavour);
+
     yield(timeBetweenShipments);  // exclude first productin
 
     for (;;) {
@@ -52,7 +52,7 @@ void BottlingPlant::main() {
             break;
         }
 
-        } catch(uMutexFailure::RendezvousFailure &) { break; }
+        } catch(uMutexFailure::RendezvousFailure) { break; }
     }
     printer.print(Printer::BottlingPlant, PlantStates::Finished);
 }
