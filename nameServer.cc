@@ -28,7 +28,11 @@ void NameServer::main() {
                           NameServer::States::Finished);
             break;
         }
-        or _Accept(getMachineList){} or _Accept(getMachine) {}
+        or _Accept(getMachineList){} or _Accept(getMachine) {
+            printer.print(Printer::Kind::NameServer, NameServer::States::NewVM,
+                          studentId, newMachine->getId());
+            machineIndex = (machineIndex + 1) % numVendingMachines;
+        }
     }
 }
 
@@ -39,9 +43,6 @@ void NameServer::VMregister(VendingMachine* vendingmachine) {
 VendingMachine* NameServer::getMachine(unsigned int id) {
     studentId = id;
     newMachine = machines[machineIndex];
-    printer.print(Printer::Kind::NameServer, NameServer::States::NewVM,
-                  studentId, newMachine->getId());
-    machineIndex = (machineIndex + 1) % numVendingMachines;
     return newMachine;
 }
 
