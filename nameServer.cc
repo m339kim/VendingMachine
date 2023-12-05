@@ -8,28 +8,23 @@ NameServer::NameServer(Printer& prt, unsigned int numVendingMachines,
     machines = new VendingMachine*[numVendingMachines];
 }
 
-NameServer::~NameServer() {
-    delete[] machines;
-}
+NameServer::~NameServer() { delete[] machines; }
 
 void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
 
     for (unsigned int i = machineIndex; i < numVendingMachines; i++) {
-        _Accept(VMregister){  
-            machines[i] = newMachine; 
-        };
+        _Accept(VMregister) { machines[i] = newMachine; };
     }
     machineIndex = 0;
     for (;;) {
-        _Accept(~NameServer) { 
+        _Accept(~NameServer) {
             bench.signalBlock();
-            printer.print(Printer::Kind::NameServer, NameServer::States::Finished);
-            break; 
+            printer.print(Printer::Kind::NameServer,
+                          NameServer::States::Finished);
+            break;
         }
-        or _Accept(getMachine) {
-
-        } or _Accept (getMachineList) {}
+        or _Accept(getMachineList){} or _Accept(getMachine) {}
     }
 }
 
@@ -38,18 +33,13 @@ void NameServer::VMregister(VendingMachine* vendingmachine) {
     printer.print(Printer::Kind::NameServer, RegisterVM, newMachine->getId());
 }
 
-VendingMachine * NameServer::getMachine(unsigned int id) {
+VendingMachine* NameServer::getMachine(unsigned int id) {
     studentId = id;
     newMachine = machines[machineIndex];
-    printer.print(Printer::Kind::NameServer, 
-                    NameServer::States::NewVM, 
-                    studentId, 
-                    newMachine->getId()
-                    );
+    printer.print(Printer::Kind::NameServer, NameServer::States::NewVM,
+                  studentId, newMachine->getId());
     machineIndex = (machineIndex + 1) % numVendingMachines;
     return newMachine;
 }
 
-VendingMachine ** NameServer::getMachineList() {
-    return machines;
-}
+VendingMachine** NameServer::getMachineList() { return machines; }
