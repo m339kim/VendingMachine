@@ -92,21 +92,21 @@ void WATCardOffice::main() {
                 new WATCard();  // student must remember to free this memory
             // obtain funding from bank
             Job* job = new Job(sid, amount, watcard);
-            jobs.push_back(
-                job);  // Use push_back() to add elements to the vector
+            jobs.push_back(job);
             printer.print(Printer::Kind::WATCardOffice,
                           WATCardOffice::States::CreateComplete, sid, amount);
             bench.signalBlock();
         }
-        _Accept(transfer){
-    // obtain funding from bank
-    Job* job = new Job(sid, amount, card);
-    jobs.push_back(job);  // Use push_back() to add elements to the vector
-    printer.print(Printer::Kind::WATCardOffice,
-                  WATCardOffice::States::TransferComplete, sid, amount);
-                  bench.signalBlock();
-
-        } or _When(!jobs.empty()) _Accept(requestWork) {
+        _Accept(transfer) {
+            Job* job = new Job(sid, amount, card);
+            jobs.push_back(job);
+            printer.print(Printer::Kind::WATCardOffice,
+                          WATCardOffice::States::TransferComplete, sid, amount);
+            bench.signalBlock();
+        }
+        or _When(!jobs.empty()) _Accept(requestWork) {
+            printer.print(Printer::Kind::WATCardOffice,
+                          WATCardOffice::RequestComplete);
         }  // Accept
     }
 }
@@ -118,7 +118,7 @@ WATCard::FWATCard WATCardOffice::create(unsigned int sid, unsigned int amount) {
 
 WATCard::FWATCard WATCardOffice::transfer(unsigned int sid, unsigned int amount,
                                           WATCard* card) {
-    bench.wait()
+    bench.wait();
     return jobs.back()->result;
 }
 
@@ -130,6 +130,5 @@ WATCardOffice::Job* WATCardOffice::requestWork() {
     Job* job = jobs.back();  // last elem of vector jobs
     jobs.pop_back();         // remove the last elem of vector jobs
 
-    printer.print(Printer::Kind::WATCardOffice, WATCardOffice::RequestComplete);
     return job;
 }
