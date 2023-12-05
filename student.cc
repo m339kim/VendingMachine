@@ -56,7 +56,7 @@ void Student::main() {
                 break;
             } catch (VendingMachine::Free& free) {
                 if (cardType == States::BoughtSoda) {
-                    cardType = States::FreeSodaAdGC;
+                    cardType = States::FreeSodaAdWC;
                 } else {
                     cardType = States::FreeSodaAdGC;
                 }
