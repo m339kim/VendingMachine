@@ -53,7 +53,7 @@ void VendingMachine::main() {
             or _When(restocking) _Accept(restocked) {
                 printer.print(Printer::Vending, id, States::DoneTruckReload);
             }
-        } catch (&uMutexFailure::RendezvousFailure&) {
+        } catch (uMutexFailure::RendezvousFailure&) {
         }
     }
 }

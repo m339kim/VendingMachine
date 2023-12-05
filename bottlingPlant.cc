@@ -61,7 +61,7 @@ void BottlingPlant::main() {
                 break;
             }
 
-        } catch (&uMutexFailure::RendezvousFailure) {
+        } catch (uMutexFailure::RendezvousFailure &) {
             break;
         }
     }
