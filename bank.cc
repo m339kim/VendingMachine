@@ -4,7 +4,6 @@
 Bank::Bank(unsigned int numStudents) : numStudents(numStudents) {
     balances = new unsigned int[numStudents];
     std::fill(balances, balances + numStudents, 0);
-    // balanceChange = new uCondition[numStudents];
 }
 
 Bank::~Bank() {
