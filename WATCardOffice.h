@@ -30,7 +30,7 @@ _Task WATCardOffice {
 		enum States : char {
 			Start = 'S',
 			StartTransfer = 't', // s,a // student s requesting transfer, amount a of transfer
-			LostWATCard = 'L', // s // student s requesting transfer
+			WATCardLost = 'L', // s // student s requesting transfer
 			DoneTransfer = 'T', // s,a // student s requesting transfer, amount a of transfer
 			Finished = 'F'
 		};
