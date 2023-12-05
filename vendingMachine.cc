@@ -48,6 +48,7 @@ void VendingMachine::main() {
                 bench.signalBlock();
             }
             or _When(!restocking) _Accept(inventory) {
+                restocking = true;
                 printer.print(Printer::Vending, id, States::StartTruckReload);
             }
             or _When(restocking) _Accept(restocked) {
@@ -58,10 +59,7 @@ void VendingMachine::main() {
     }
 }
 
-unsigned int* VendingMachine::inventory() {
-    restocking = true;
-    return stock;
-}
+unsigned int* VendingMachine::inventory() { return stock; }
 
 void VendingMachine::restocked() { restocking = false; };
 
