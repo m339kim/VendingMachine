@@ -40,19 +40,20 @@ void BottlingPlant::main() {
             total += currStock;
         }
 
-        
         printer.print(Printer::BottlingPlant, PlantStates::GenSoda, total);
         try {
-        _Accept(getShipment){
+            _Accept(getShipment){
 
-        } or _Accept(~BottlingPlant) {
-            shutdown = true;
-            _Accept(getShipment);
-            bench.signal();
+            } or _Accept(~BottlingPlant) {
+                shutdown = true;
+                _Accept(getShipment);
+                bench.signal();
+                break;
+            }
+
+        } catch (uMutexFailure::RendezvousFailure) {
             break;
         }
-
-        } catch(uMutexFailure::RendezvousFailure) { break; }
     }
     printer.print(Printer::BottlingPlant, PlantStates::Finished);
 }
@@ -61,7 +62,6 @@ void BottlingPlant::getShipment(unsigned int cargo[]) {
     for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
         cargo[i] = production[i];
     }
-
 
     if (shutdown) _Throw Shutdown();
 
