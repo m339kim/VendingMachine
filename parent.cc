@@ -1,5 +1,4 @@
 #include "parent.h"
-
 #include "bank.h"
 #include "printer.h"
 
@@ -13,7 +12,9 @@ Parent::Parent(Printer& prt, Bank& bank, unsigned int numStudents,
 void Parent::main() {
     printer.print(Printer::Parent, Start);
     for (;;) {
-        _Accept(~Parent) { break; }
+        _Accept(~Parent) { 
+            break; 
+        }
         _Else {
             yield(parentalDelay);
             int amount = my_prng(1, 3);
