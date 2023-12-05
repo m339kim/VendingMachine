@@ -16,8 +16,8 @@ void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
 
     for (unsigned int i = machineIndex; i < numVendingMachines; i++) {
-        _Accept(VMregister){
-            machines[i] = newMachine;
+        _Accept(VMregister){  
+            machines[i] = newMachine; 
         };
     }
     machineIndex = 0;
@@ -38,7 +38,6 @@ void NameServer::main() {
             bench.signalBlock();
         } or _Accept (getMachineList) {}
     }
-    // printer.print(Printer::NameServer, States::Finished);
 }
 
 void NameServer::VMregister(VendingMachine* vendingmachine) {
@@ -46,12 +45,12 @@ void NameServer::VMregister(VendingMachine* vendingmachine) {
     printer.print(Printer::Kind::NameServer, RegisterVM, newMachine->getId());
 }
 
-VendingMachine* NameServer::getMachine(unsigned int id) {
+VendingMachine * NameServer::getMachine(unsigned int id) {
     studentId = id;
     bench.wait();
     return newMachine;
 }
 
-VendingMachine** NameServer::getMachineList() {
+VendingMachine ** NameServer::getMachineList() {
     return machines;
 }

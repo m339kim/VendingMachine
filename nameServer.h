@@ -1,4 +1,5 @@
 #pragma once
+
 #include "vendingMachine.h"
 #include "printer.h"
 
