@@ -50,7 +50,7 @@ void Student::main() {
             try {
                 currMachine->buy(favouriteFlavour, cardToUse);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
-                              card->getBalance());
+                              cardToUse->getBalance());
                 break;
             } catch (VendingMachine::Free &free) {
                 if (cardType == States::BoughtSoda) {
@@ -59,7 +59,7 @@ void Student::main() {
                     cardType = States::FreeSodaAdGC;
                 }
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
-                              card->getBalance());
+                              cardToUse->getBalance());
                 if (my_prng(2) == 0) {
                     yield(4);
                 } else {
