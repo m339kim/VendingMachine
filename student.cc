@@ -48,11 +48,11 @@ void Student::main() {
                 }
             }
             try {
-                currMachine.buy(favouriteFlavour, card);
+                currMachine->buy(favouriteFlavour, cardToUse);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               card->getBalance());
                 break;
-            } catch (VendingMachine::Free free) {
+            } catch (VendingMachine::Free &free) {
                 if (cardType == States::BoughtSoda) {
                     cardType = States::FreeSodaAdGC;
                 } else {
@@ -67,15 +67,15 @@ void Student::main() {
                     printer.print(Printer::Student, id, cardType);
                 }
                 break;
-            } catch (VendingMachine::Funds funds) {
+            } catch (VendingMachine::Funds &funds) {
                 // gift card is guaranteed to have enough money I think
                 watcard =
                     cardOffice.transfer(id, 5 + currMachine.cost(), cardToUse);
                 continue;
-            } catch (VendingMachine::Stock) {
+            } catch (VendingMachine::Stock &stock) {
                 currMachine = nameServer.getMachine(id);
                 printer.print(Printer::Student, id, States::SelectingVM,
-                              currMachine.getId());
+                              currMachine->getId());
                 continue;
             }
         }
