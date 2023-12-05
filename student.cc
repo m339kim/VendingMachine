@@ -43,15 +43,18 @@ void Student::main() {
                         cardToUse = watcard();
                         cardType = States::BoughtSoda;
                     } catch (WATCardOffice::Lost& lost) {
-                        printer.print(Printer::Kind::Student, id, Student::States::WATCardLost);
+                        printer.print(Printer::Kind::Student, id,
+                                      Student::States::WATCardLost);
                         watcard = cardOffice.create(id, 5);
                         continue;
                     }
                 }
             }
             try {
-                currMachine->buy((VendingMachine::Flavours)favouriteFlavour,
-                                 *cardToUse);
+                _Enable {
+                    currMachine->buy((VendingMachine::Flavours)favouriteFlavour,
+                                     *cardToUse);
+                }
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               cardToUse->getBalance());
                 break;
