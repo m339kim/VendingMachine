@@ -39,7 +39,10 @@ void BottlingPlant::main() {
             production[i] = currStock;
             total += currStock;
         }
+
+        
         printer.print(Printer::BottlingPlant, PlantStates::GenSoda, total);
+        try {
         _Accept(getShipment){
 
         } or _Accept(~BottlingPlant) {
@@ -48,6 +51,8 @@ void BottlingPlant::main() {
             bench.signal();
             break;
         }
+
+        } catch(uMutexFailure::RendezvousFailure) { break; }
     }
     printer.print(Printer::BottlingPlant, PlantStates::Finished);
 }
