@@ -70,7 +70,7 @@ void Student::main() {
             } catch (VendingMachine::Funds &funds) {
                 // gift card is guaranteed to have enough money I think
                 watcard =
-                    cardOffice.transfer(id, 5 + currMachine.cost(), cardToUse);
+                    cardOffice.transfer(id, 5 + currMachine->cost(), cardToUse);
                 continue;
             } catch (VendingMachine::Stock &stock) {
                 currMachine = nameServer.getMachine(id);
