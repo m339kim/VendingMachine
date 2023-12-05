@@ -21,6 +21,7 @@ _Task Groupoff {
 	unsigned int numStudents;
     unsigned int sodaCost; 
     unsigned int groupoffDelay;
+	uCondition bench;
 
 	vector< WATCard::FWATCard > futGiftCards;
 	vector< WATCard* > legitWATCards;
