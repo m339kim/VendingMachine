@@ -9,6 +9,7 @@ extern PRNG my_prng;
 _Task BottlingPlant {
   Printer &printer;
 	NameServer &nameServer;
+  
   Truck * truck;
   uCondition bench;
 
