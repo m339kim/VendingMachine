@@ -45,14 +45,20 @@ void BottlingPlant::main() {
                     currCargo[i] = production[i];
                 }
 
-                if (shutdown) _Resume Shutdown() _At *currTask;
-
                 printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
                 bench.signalBlock();
             }
             or _Accept(~BottlingPlant) {
-                shutdown = true;
-                _Accept(getShipment);
+                _Accept(getShipment) {
+                    _Resume Shutdown() _At *currTask;
+                    for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
+                        currCargo[i] = production[i];
+                    }
+
+                    printer.print(Printer::BottlingPlant,
+                                  PlantStates::PickedUp);
+                    bench.signalBlock();
+                };
 
                 break;
             }
