@@ -4,15 +4,18 @@ NameServer::NameServer(Printer& prt, unsigned int numVendingMachines,
                        unsigned int numStudents)
     : printer(prt),
       numVendingMachines(numVendingMachines),
-      numStudents(numStudents) {
-    machines = new VendingMachine*[numVendingMachines];
-    studentMachineIds = new unsigned int[numStudents];
+      numStudents(numStudents),
+      machines(new VendingMachine*[numVendingMachines]),
+      studentMachineIds(new unsigned int[numStudents]) {
     for (unsigned int i = 0; i < numStudents; i++) {
         studentMachineIds[i] = i % numVendingMachines;
     }
 }
 
-NameServer::~NameServer() { delete[] machines; delete[]studentMachineIds; }
+NameServer::~NameServer() {
+    delete[] machines;
+    delete[] studentMachineIds;
+}
 
 void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
@@ -35,7 +38,8 @@ void NameServer::main() {
         or _Accept(getMachineList){} or _Accept(getMachine) {
             printer.print(Printer::Kind::NameServer, NameServer::States::NewVM,
                           studentId, newMachine->getId());
-            studentMachineIds[studentId] = (studentMachineIds[studentId] + 1) % numVendingMachines;
+            studentMachineIds[studentId] =
+                (studentMachineIds[studentId] + 1) % numVendingMachines;
             bench.signalBlock();
         }
     }
