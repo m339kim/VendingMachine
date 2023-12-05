@@ -12,8 +12,7 @@ Student::Student(Printer& prt, NameServer& nameServer,
     return;
 }
 
-Student::~Student() {
-}
+Student::~Student() {}
 
 void Student::main() {
     unsigned int bottlesToPurchase = my_prng(1, maxPurchases);
@@ -85,7 +84,10 @@ void Student::main() {
     }
 
     if (watcard.available()) {
-        delete watcard();
+        try {
+            delete watcard();
+        } catch (...) {
+        }
     }
     printer.print(Printer::Student, id, States::Finished);
 }
