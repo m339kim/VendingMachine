@@ -12,13 +12,12 @@ BottlingPlant::BottlingPlant(Printer &prt, NameServer &nameServer,
       numVendingMachines(numVendingMachines),
       maxShippedPerFlavour(maxShippedPerFlavour),
       maxStockPerFlavour(maxStockPerFlavour),
-      timeBetweenShipments(timeBetweenShipments) 
-    {
-        //change here to
-        truck = new Truck(printer, nameServer, *this, numVendingMachines,
-                        maxStockPerFlavour);
-        production = new unsigned int[Flavours::NUM_FLAVOURS];
-    }
+      timeBetweenShipments(timeBetweenShipments) {
+    // change here to
+    truck = new Truck(printer, nameServer, *this, numVendingMachines,
+                      maxStockPerFlavour);
+    production = new unsigned int[Flavours::NUM_FLAVOURS];
+}
 
 BottlingPlant::~BottlingPlant() {
     delete[] production;
@@ -28,23 +27,23 @@ BottlingPlant::~BottlingPlant() {
 void BottlingPlant::main() {
     printer.print(Printer::BottlingPlant, PlantStates::Start);
 
-    yield(timeBetweenShipments); // exclude first productin
+    yield(timeBetweenShipments);  // exclude first productin
 
     for (;;) {
         // production run
         // getShipment or shutdown
-        _Accept(getShipment) { // waiting for truck to pickup products..
-            unsigned int total = 0;
-            for (unsigned int i = 0; i < Flavours::NUM_FLAVOURS; i++) {
-                unsigned int currStock = my_prng(maxShippedPerFlavour);
-                production[i] = currStock;
-                total += currStock;
-            }
-            printer.print(Printer::BottlingPlant, PlantStates::GenSoda, total);
+        yield(timeBetweenShipments);
+        unsigned int total = 0;
+        for (unsigned int i = 0; i < Flavours::NUM_FLAVOURS; i++) {
+            unsigned int currStock = my_prng(maxShippedPerFlavour);
+            production[i] = currStock;
+            total += currStock;
+        }
+        printer.print(Printer::BottlingPlant, PlantStates::GenSoda, total);
+        _Accept(getShipment){
+            // waiting for truck to pickup products..
 
             // added
-            bench.signalBlock();
-            yield(timeBetweenShipments);
             // printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
         } or _Accept(~BottlingPlant) {
             shutdown = true;
@@ -57,13 +56,12 @@ void BottlingPlant::main() {
 }
 
 void BottlingPlant::getShipment(unsigned int cargo[]) {
-    bench.wait();
     for (unsigned int i = 0; i < NUM_FLAVOURS; i++) {
         cargo[i] = production[i];
     }
     if (shutdown) {
         // ?
-        _Throw Shutdown(); // nice
+        _Throw Shutdown();  // nice
     }
     printer.print(Printer::BottlingPlant, PlantStates::PickedUp);
 }
