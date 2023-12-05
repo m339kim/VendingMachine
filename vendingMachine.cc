@@ -15,7 +15,7 @@ VendingMachine::VendingMachine(Printer& prt, NameServer& nameServer,
 void VendingMachine::buy(Flavours flavour, WATCard& card) {
     watcard = &card;
     curFlavour = flavour;
-    currTask = &resumer();
+    currTask = &uThisTask();
     bench.wait();
 }
 
