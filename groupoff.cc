@@ -45,7 +45,6 @@ void Groupoff::main() {
 
             futGiftCards[student_idx].delivery(w);
 
-            futGiftCards.erase(futGiftCards.begin() + student_idx);
             // print after delivery
             printer.print(Printer::Kind::Groupoff,
                           Groupoff::States::DepositGift, sodaCost);
