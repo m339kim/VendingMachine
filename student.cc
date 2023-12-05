@@ -33,26 +33,28 @@ void Student::main() {
     for (unsigned int i = 0; i < bottlesToPurchase; i++) {
         yield(my_prng(1, 10));
         for (;;) {
-            _Select(giftcard) {
-                WATCard* cardToUse = giftcard();
-                giftcard.reset();
-                cardType = States::GiftCardSoda;
-            }
-            or _Select(watcard) {
-                try {
-                    cardToUse = watcard();
-                    cardType = States::BoughtSoda;
-                } catch (WATCardOffice::Lost &lost) {
-                    watcard = cardOffice.create(id, 5);
-                    continue;
+            _Select(giftcard || watcard) {
+                if (giftcard.available()) {
+                    WATCard* cardToUse = giftcard();
+                    giftcard.reset();
+                    cardType = States::GiftCardSoda;
+                } else {
+                    try {
+                        cardToUse = watcard();
+                        cardType = States::BoughtSoda;
+                    } catch (WATCardOffice::Lost& lost) {
+                        watcard = cardOffice.create(id, 5);
+                        continue;
+                    }
                 }
             }
             try {
-                currMachine->buy((VendingMachine::Flavours)favouriteFlavour, *cardToUse);
+                currMachine->buy((VendingMachine::Flavours)favouriteFlavour,
+                                 *cardToUse);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               cardToUse->getBalance());
                 break;
-            } catch (VendingMachine::Free &free) {
+            } catch (VendingMachine::Free& free) {
                 if (cardType == States::BoughtSoda) {
                     cardType = States::FreeSodaAdGC;
                 } else {
@@ -67,12 +69,12 @@ void Student::main() {
                     printer.print(Printer::Student, id, cardType);
                 }
                 break;
-            } catch (VendingMachine::Funds &funds) {
+            } catch (VendingMachine::Funds& funds) {
                 // gift card is guaranteed to have enough money I think
                 watcard =
                     cardOffice.transfer(id, 5 + currMachine->cost(), cardToUse);
                 continue;
-            } catch (VendingMachine::Stock &stock) {
+            } catch (VendingMachine::Stock& stock) {
                 currMachine = nameServer.getMachine(id);
                 printer.print(Printer::Student, id, States::SelectingVM,
                               currMachine->getId());
