@@ -48,7 +48,7 @@ void Student::main() {
                 }
             }
             try {
-                currMachine->buy(*favouriteFlavour, cardToUse);
+                currMachine->buy(favouriteFlavour, *cardToUse);
                 printer.print(Printer::Student, id, cardType, favouriteFlavour,
                               cardToUse->getBalance());
                 break;
