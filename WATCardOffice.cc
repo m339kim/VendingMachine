@@ -67,14 +67,26 @@ WATCardOffice::~WATCardOffice() {
 
     for (unsigned int i = 0; i < numCouriers; i++) _Accept(requestWork);
     for (unsigned int i = 0; i < numCouriers; i++) delete couriers[i];
-    delete couriers;
+    delete [] couriers;
 
     printer.print(Printer::Kind::WATCardOffice, WATCardOffice::States::Finished);
 }
 
-void WATCardOffice::main() {
 
+
+void WATCardOffice::main() {
+    printer.print( Printer::Kind::WATCardOffice, WATCardOffice::Start );
+
+    for ( ;; ){
+        _Accept(~WATCardOffice){
+            break;
+        } or _Accept(create, transfer){
+        } or _When(!jobs.empty()) _Accept (requestWork){
+        }    // Accept
+    }
 }
+
+
 
 WATCard::FWATCard WATCardOffice::create(unsigned int sid, unsigned int amount) {
     WATCard* watcard = new WATCard(); // student must remember to free this memory
