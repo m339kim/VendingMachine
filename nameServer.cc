@@ -14,7 +14,11 @@ void NameServer::main() {
     printer.print(Printer::NameServer, States::Start);
 
     for (unsigned int i = machineIndex; i < numVendingMachines; i++) {
-        _Accept(VMregister) { machines[i] = newMachine; };
+        _Accept(VMregister) {
+            machines[i] = newMachine;
+            printer.print(Printer::Kind::NameServer, RegisterVM,
+                          newMachine->getId());
+        };
     }
     machineIndex = 0;
     for (;;) {
@@ -30,7 +34,6 @@ void NameServer::main() {
 
 void NameServer::VMregister(VendingMachine* vendingmachine) {
     newMachine = vendingmachine;
-    printer.print(Printer::Kind::NameServer, RegisterVM, newMachine->getId());
 }
 
 VendingMachine* NameServer::getMachine(unsigned int id) {
