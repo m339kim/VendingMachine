@@ -33,12 +33,12 @@ void VendingMachine::main() {
                 if (stock[curFlavour] == 0) {
                     _Resume Stock() _At* currTask;
                 } else if (card.getBalance() < sodaCost) {
-                    _Throw Funds() _At* currTask;
+                    _Resume Funds() _At* currTask;
                 } else {
                     stock[curFlavour] -= 1;
                     if (my_prng(5 - 1) == 0) {
                         printer.print(Printer::Vending, id, States::FreeSodaAd);
-                        _Throw Free() _At* currTask;
+                        _Resume Free() _At* currTask;
                     } else {
                         watcard->withdraw(sodaCost);
                         printer.print(Printer::Vending, id, States::SodaBought,
