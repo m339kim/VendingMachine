@@ -21,7 +21,6 @@ Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
 
 Truck::~Truck(){
     delete [] cargo;
-    printer.print(Printer::Kind::Truck, Truck::States::Finished);
 }
 
 void Truck::main() {
@@ -52,6 +51,7 @@ void Truck::main() {
         }
         machineIndex = curr; // reset
     } _Accept(~Truck);
+    printer.print(Printer::Kind::Truck, Truck::States::Finished);
 }
 
 void Truck::fillStock(VendingMachine * machine) {
