@@ -43,6 +43,7 @@ void Student::main() {
                         cardToUse = watcard();
                         cardType = States::BoughtSoda;
                     } catch (WATCardOffice::Lost& lost) {
+                        printer.print(Printer::Kind::Student, id, Student::States::WATCardLost);
                         watcard = cardOffice.create(id, 5);
                         continue;
                     }
