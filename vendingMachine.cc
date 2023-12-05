@@ -32,7 +32,7 @@ void VendingMachine::main() {
             or _When(!restocking) _Accept(buy) {
                 if (stock[curFlavour] == 0) {
                     _Resume Stock() _At* currTask;
-                } else if (card.getBalance() < sodaCost) {
+                } else if (watcard.getBalance() < sodaCost) {
                     _Resume Funds() _At* currTask;
                 } else {
                     stock[curFlavour] -= 1;
